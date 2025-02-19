@@ -16,7 +16,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/yourusername/gitops-system.git
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: management/addons/ack
         helm:
