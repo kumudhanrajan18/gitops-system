@@ -1,4 +1,4 @@
-
+# management/addons/ack/values.yaml
 eks-chart:
   aws:
     region: us-west-2
@@ -6,6 +6,7 @@ eks-chart:
   serviceAccount:
     create: true
     name: ack-eks-controller
+    namespace: default  # Changed to default
     annotations: {}
   
   resources:
@@ -28,24 +29,6 @@ eks-chart:
     port: 9443
 
   deployment:
+    namespace: default  # Changed to default
     healthCheckPort: 8080
     metricsPort: 8080
-    probes:
-      readiness:
-        initialDelaySeconds: 5
-        periodSeconds: 10
-        port: 8080
-        path: /readyz
-      liveness:
-        initialDelaySeconds: 10
-        periodSeconds: 20
-        port: 8080
-        path: /healthz
-
-  ports:
-    - name: health
-      containerPort: 8080
-      protocol: TCP
-    - name: webhook
-      containerPort: 9443
-      protocol: TCP
