@@ -8,7 +8,7 @@ spec:
   - list:
       elements:
       - name: ack-controllers
-        namespace: ack-system
+        namespace: default
   template:
     metadata:
       name: addons

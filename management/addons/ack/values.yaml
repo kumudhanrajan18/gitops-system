@@ -1,11 +1,12 @@
 
 eks-chart:
   aws:
-    region: eu-west-1
+    region: us-west-2
   
   serviceAccount:
     create: true
-    name: eks-ack
+    name: ack-eks-controller
+    namespace: ack-system
     annotations: {}
   
   resources:
@@ -26,3 +27,6 @@ eks-chart:
   webhook:
     enabled: true
     port: 9443
+    
+  deployment:
+    namespace: ack-system
