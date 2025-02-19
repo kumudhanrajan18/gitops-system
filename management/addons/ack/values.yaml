@@ -6,7 +6,7 @@ eks-chart:
   serviceAccount:
     create: true
     name: eks-ack
-    namespace: ack-system
+    namespace: default
     annotations: {}
   
   resources:
