@@ -5,6 +5,6 @@ description: AWS Controllers for Kubernetes (ACK) EKS Controller
 version: 0.1.0
 type: application
 dependencies:
-  - name: eks-chart
-    version: "1.5.1"
+  - name: eks-ack-controller
+    version: "1.6.1"
     repository: oci://public.ecr.aws/aws-controllers-k8s
