@@ -22,7 +22,8 @@ spec:
         helm:
           valueFiles:
           - values.yaml
-          skipCrds: false
+          registrySecrets:
+          - name: ecr-credentials
       destination:
         server: https://kubernetes.default.svc
         namespace: default

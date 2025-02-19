@@ -6,4 +6,4 @@ metadata:
 data:
   helm.repositories: |
     - name: aws-controllers-k8s
-      url: https://aws-controllers-k8s.github.io/charts
+      url: oci://public.ecr.aws/aws-controllers-k8s

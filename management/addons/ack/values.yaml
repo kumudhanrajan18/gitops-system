@@ -1,11 +1,12 @@
-eks-controller:
+
+eks-chart:
+  aws:
+    region: eu-west-1
+  
   serviceAccount:
     create: true
     name: eks-ack
-    annotations: {}  # Pod identity will handle this
-  
-  aws:
-    region: ${AWS_REGION}
+    annotations: {}
   
   resources:
     limits:
@@ -15,10 +16,6 @@ eks-controller:
       cpu: 250m
       memory: 128Mi
   
-  metrics:
-    service:
-      create: true
-      
   tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
@@ -26,7 +23,6 @@ eks-controller:
   nodeSelector:
     kubernetes.io/os: linux
 
-  # Additional configurations
   webhook:
     enabled: true
     port: 9443
