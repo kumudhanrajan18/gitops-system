@@ -5,7 +5,7 @@ eks-chart:
   
   serviceAccount:
     create: true
-    name: ack-eks-controller
+    name: eks-ack
     namespace: ack-system
     annotations: {}
   
@@ -29,4 +29,4 @@ eks-chart:
     port: 9443
     
   deployment:
-    namespace: ack-system
+    namespace: default
