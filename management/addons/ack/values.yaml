@@ -5,8 +5,7 @@ eks-chart:
   
   serviceAccount:
     create: true
-    name: eks-ack
-    namespace: default
+    name: ack-eks-controller
     annotations: {}
   
   resources:
@@ -27,6 +26,26 @@ eks-chart:
   webhook:
     enabled: true
     port: 9443
-    
+
   deployment:
-    namespace: default
+    healthCheckPort: 8080
+    metricsPort: 8080
+    probes:
+      readiness:
+        initialDelaySeconds: 5
+        periodSeconds: 10
+        port: 8080
+        path: /readyz
+      liveness:
+        initialDelaySeconds: 10
+        periodSeconds: 20
+        port: 8080
+        path: /healthz
+
+  ports:
+    - name: health
+      containerPort: 8080
+      protocol: TCP
+    - name: webhook
+      containerPort: 9443
+      protocol: TCP

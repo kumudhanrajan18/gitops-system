@@ -7,12 +7,12 @@ spec:
   generators:
   - list:
       elements:
-      - name: ack-controllers
-        namespace: default
+      - name: ack-eks-controller
+        namespace: ack-system
   template:
     metadata:
       name: addons
-      namespace: default
+      namespace: argocd
     spec:
       project: default
       source:
@@ -26,7 +26,7 @@ spec:
           - name: ecr-credentials
       destination:
         server: https://kubernetes.default.svc
-        namespace: argocd
+        namespace: ack-system
       syncPolicy:
         automated:
           prune: true
