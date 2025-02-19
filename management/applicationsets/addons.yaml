@@ -11,7 +11,7 @@ spec:
         namespace: ack-system
   template:
     metadata:
-      name: '{{.name}}'
+      name: addons
       namespace: argocd
     spec:
       project: default
@@ -25,7 +25,7 @@ spec:
           skipCrds: false
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.namespace}}'
+        namespace: default
       syncPolicy:
         automated:
           prune: true
