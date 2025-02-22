@@ -23,8 +23,6 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: '{{path}}'
-        directory:
-          recurse: true
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
