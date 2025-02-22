@@ -6,4 +6,4 @@ type: application
 dependencies:
   - name: kro
     version: "0.1.0"  # Will be replaced with latest version
-    repository: oci://public.ecr.aws/kro/kro
+    repository: oci://public.ecr.aws/kro
