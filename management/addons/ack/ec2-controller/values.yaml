@@ -10,12 +10,10 @@ ec2-chart:
         value: ""
       - name: DELETION_POLICY
         value: delete
-      - name: ACK_LOG_LEVEL
-        value: debug  # Changed to debug for better troubleshooting
     
     ports:
       - name: health
-        containerPort: 8081  # Changed to match the health check port
+        containerPort: 8081
     
     livenessProbe:
       httpGet:
