@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: management/addons/ack/{{name}}
+        path: management/addons/{{name}}
         helm:
           valueFiles:
           - values.yaml
