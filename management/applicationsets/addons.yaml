@@ -7,11 +7,11 @@ spec:
   generators:
   - list:
       elements:
-      - name: ack/eks-controller
+      - name: eks-controller
         namespace: ack-system
-      - name: ack/iam-controller
+      - name: iam-controller
         namespace: ack-system
-      - name: ack/ec2-controller
+      - name: ec2-controller
         namespace: ack-system
       - name: kro
         namespace: kro-system
