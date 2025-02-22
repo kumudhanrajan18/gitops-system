@@ -1,48 +1,40 @@
-ec2-chart:
-  aws:
-    region: eu-west-1
-
+# For eks-chart (and similarly for iam-chart/ec2-chart)
+eks-chart:
+  controller:
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 5
+      successThreshold: 1
+    readinessProbe:
+      httpGet:
+        path: /readyz
+        port: 8080
+        scheme: HTTP
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 5
+      successThreshold: 1
+    ports:
+      - containerPort: 8080
+        name: http
+        protocol: TCP
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
   serviceAccount:
     create: true
-    name: ec2-ack
+    name: eks-ack
     namespace: ack-system
-
-  deployment:
-    namespace: ack-system
-
-  livenessProbe:
-    httpGet:
-      path: /healthz
-      port: 8080  # Changed from 8080
-    initialDelaySeconds: 60  # Increased delay
-    periodSeconds: 20
-    timeoutSeconds: 5
-    failureThreshold: 3
-
-  readinessProbe:
-    httpGet:
-      path: /readyz
-      port: 8080  # Changed from 8080
-    initialDelaySeconds: 60  # Increased delay
-    periodSeconds: 20
-    timeoutSeconds: 5
-    failureThreshold: 3
-
-  resources:
-    limits:
-      cpu: 500m
-      memory: 256Mi
-    requests:
-      cpu: 250m
-      memory: 128Mi
-
-  tolerations:
-    - key: "CriticalAddonsOnly"
-      operator: "Exists"
-
-  nodeSelector:
-    kubernetes.io/os: linux
-
-  webhook:
-    enabled: true
-    port: 9443
+  aws:
+    region: eu-west-1
