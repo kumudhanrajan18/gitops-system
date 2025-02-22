@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-namespaces
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: namespaces
+  template:
+    metadata:
+      name: 'namespaces'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "-1"  # Ensure namespaces are created first
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: management/namespaces
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
