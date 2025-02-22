@@ -6,7 +6,7 @@ ec2-chart:
   serviceAccount:
     create: true
     name: ec2-ack
-    namespace: default  # Changed to default
+    namespace: ack-system  # Changed to default
     annotations: {}
   
   resources:
@@ -29,6 +29,6 @@ ec2-chart:
     port: 9443
 
   deployment:
-    namespace: default
+    namespace: ack-system
     healthCheckPort: 8080
     metricsPort: 8080

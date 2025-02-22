@@ -1,0 +1,9 @@
+apiVersion: v2
+name: kro
+description: Kubernetes Resource Optimization (KRO)
+version: 0.1.0
+type: application
+dependencies:
+  - name: kro
+    version: 0.3.2
+    repository: https://kro.run/charts

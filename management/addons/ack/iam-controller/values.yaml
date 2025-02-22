@@ -6,7 +6,7 @@ iam-chart:
   serviceAccount:
     create: true
     name: iam-ack
-    namespace: default
+    namespace: ack-system
     annotations: {}
   resources:
     limits:
@@ -24,6 +24,6 @@ iam-chart:
     enabled: true
     port: 9443
   deployment:
-    namespace: default
+    namespace: ack-system
     healthCheckPort: 8080
     metricsPort: 8080

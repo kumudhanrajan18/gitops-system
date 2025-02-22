@@ -1,12 +1,12 @@
 # management/addons/ack/values.yaml
 eks-chart:
   aws:
-    region: us-west-2
+    region: eu-west-1
   
   serviceAccount:
     create: true
     name: eks-ack
-    namespace: default  # Changed to default
+    namespace: ack-system  # Changed to default
     annotations: {}
   
   resources:
@@ -29,6 +29,6 @@ eks-chart:
     port: 9443
 
   deployment:
-    namespace: default
+    namespace: ack-system
     healthCheckPort: 8080
     metricsPort: 8080

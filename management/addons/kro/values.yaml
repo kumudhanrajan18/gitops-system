@@ -1,0 +1,49 @@
+kro:
+  rbac:
+    create: true
+
+  serviceAccount:
+    create: true
+    name: kro-sa
+
+  deployment:
+    replicas: 1
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 250m
+        memory: 256Mi
+
+  config:
+    # KRO configuration
+    rules:
+      - name: "pod-requests-limits"
+        description: "Ensure pods have resource requests and limits"
+        target: "Pod"
+        conditions:
+          - field: "spec.containers[*].resources.requests"
+            operation: "exists"
+          - field: "spec.containers[*].resources.limits"
+            operation: "exists"
+
+  monitoring:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  webhook:
+    enabled: true
+    caBundle: ""
+    failurePolicy: Ignore
+    timeoutSeconds: 30
+
+  nodeSelector:
+    kubernetes.io/os: linux
+
+  tolerations:
+    - key: "CriticalAddonsOnly"
+      operator: "Exists"
+
+  affinity: {}
