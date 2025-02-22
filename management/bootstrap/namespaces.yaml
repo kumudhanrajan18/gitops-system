@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: management/addons
     directory:
-      include: "namespace.yaml"
+      include: "namespaces.yaml"
   destination:
     server: https://kubernetes.default.svc
     namespace: default
