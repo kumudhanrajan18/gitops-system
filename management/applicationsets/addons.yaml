@@ -24,7 +24,7 @@ spec:
       name: 'addon-{{name}}'
       namespace: argocd
       annotations:
-        argocd.argoproj.io/sync-wave: "1"
+        argocd.argoproj.io/sync-wave: "0"
     spec:
       project: default
       source:
