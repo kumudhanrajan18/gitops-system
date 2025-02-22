@@ -1,14 +1,13 @@
-# management/addons/ack/values.yaml
 iam-chart:
   aws:
     region: us-west-2
-  
+  image:
+    platform: linux/amd64
   serviceAccount:
     create: true
     name: iam-ack
-    namespace: default  # Changed to default
+    namespace: default
     annotations: {}
-  
   resources:
     limits:
       cpu: 500m
@@ -16,18 +15,14 @@ iam-chart:
     requests:
       cpu: 250m
       memory: 128Mi
-  
   tolerations:
     - key: "CriticalAddonsOnly"
       operator: "Exists"
-  
   nodeSelector:
     kubernetes.io/os: linux
-
   webhook:
     enabled: true
     port: 9443
-
   deployment:
     namespace: default
     healthCheckPort: 8080
