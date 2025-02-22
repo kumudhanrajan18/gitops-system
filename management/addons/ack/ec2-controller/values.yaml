@@ -1,7 +1,7 @@
 ec2-chart:
   aws:
     region: eu-west-1
-    
+
   serviceAccount:
     create: true
     name: ec2-ack
@@ -13,8 +13,8 @@ ec2-chart:
   livenessProbe:
     httpGet:
       path: /healthz
-      port: 8081  # Changed from 8080
-    initialDelaySeconds: 30  # Increased delay
+      port: 8080  # Changed from 8080
+    initialDelaySeconds: 60  # Increased delay
     periodSeconds: 20
     timeoutSeconds: 5
     failureThreshold: 3
@@ -22,8 +22,8 @@ ec2-chart:
   readinessProbe:
     httpGet:
       path: /readyz
-      port: 8081  # Changed from 8080
-    initialDelaySeconds: 30  # Increased delay
+      port: 8080  # Changed from 8080
+    initialDelaySeconds: 60  # Increased delay
     periodSeconds: 20
     timeoutSeconds: 5
     failureThreshold: 3
