@@ -8,4 +8,4 @@ data:
     - name: aws-controllers-k8s
       url: oci://public.ecr.aws/aws-controllers-k8s
     - name: kro
-      url: oci://public.ecr.aws/kro
+      url: oci://public.ecr.aws
