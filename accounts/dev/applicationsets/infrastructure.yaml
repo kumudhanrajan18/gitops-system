@@ -1,0 +1,30 @@
+# accounts/dev/applicationsets/infrastructure.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-infrastructure
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+      revision: HEAD
+      directories:
+      - path: accounts/dev/infrastructure/*
+  template:
+    metadata:
+      name: 'dev-infra-{{path.basename}}'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: kro-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
