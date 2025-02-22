@@ -7,22 +7,19 @@ spec:
   generators:
   - list:
       elements:
-      - name: core-network
-        path: management/kro-core-network
-      - name: eks
-        path: management/kro-eks
+      - name: resource-groups
   template:
     metadata:
-      name: 'kro-resourcegroup-{{name}}'
+      name: 'kro-resource-groups'
       namespace: argocd
       annotations:
-        argocd.argoproj.io/sync-wave: "1"  # Deploy after KRO installation but before instances
+        argocd.argoproj.io/sync-wave: "1"
     spec:
       project: default
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: '{{path}}'
+        path: management/kro
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
