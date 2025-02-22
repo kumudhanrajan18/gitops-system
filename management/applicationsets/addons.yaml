@@ -9,12 +9,16 @@ spec:
       elements:
       - name: eks-controller
         namespace: ack-system
+        path: management/addons/ack/eks-controller
       - name: iam-controller
         namespace: ack-system
+        path: management/addons/ack/iam-controller
       - name: ec2-controller
         namespace: ack-system
+        path: management/addons/ack/ec2-controller
       - name: kro
         namespace: kro-system
+        path: management/addons/kro
   template:
     metadata:
       name: 'addon-{{name}}'
@@ -24,7 +28,7 @@ spec:
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: management/addons/{{name}}
+        path: '{{path}}'
         helm:
           valueFiles:
           - values.yaml
