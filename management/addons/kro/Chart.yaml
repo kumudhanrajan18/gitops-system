@@ -5,5 +5,5 @@ version: 0.1.0
 type: application
 dependencies:
   - name: kro
-    version: "0.4.0"  # Will be replaced with latest version
+    version: "0.2.1"  # Will be replaced with latest version
     repository: oci://ghcr.io/kro-run/kro
