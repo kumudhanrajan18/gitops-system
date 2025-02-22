@@ -7,17 +7,19 @@ spec:
   generators:
   - list:
       elements:
-      - name: ack-eks-controller
+      - name: eks-controller
+      - name: iam-controller
+      - name: ec2-controller
   template:
     metadata:
-      name: ack-eks-controller
+      name: 'ack-addons'
       namespace: argocd
     spec:
       project: default
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: management/addons/ack
+        path: management/addons/ack/{{name}}
         helm:
           valueFiles:
           - values.yaml

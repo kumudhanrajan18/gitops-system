@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ack-ec2-controller
+description: AWS Controllers for Kubernetes (ACK) EC2 Controller
+version: 0.1.0
+type: application
+dependencies:
+  - name: ec2-chart
+    version: "1.2.3"
+    repository: oci://public.ecr.aws/aws-controllers-k8s

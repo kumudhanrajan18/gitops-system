@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ack-iam-controller
+description: AWS Controllers for Kubernetes (ACK) IAM Controller
+version: 0.1.0
+type: application
+dependencies:
+  - name: iam-chart
+    version: "1.2.3"
+    repository: oci://public.ecr.aws/aws-controllers-k8s
