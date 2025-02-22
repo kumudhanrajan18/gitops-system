@@ -12,7 +12,7 @@ spec:
       - name: ec2-controller
   template:
     metadata:
-      name: 'ack-addons'
+      name: 'ack-{{name}}'
       namespace: argocd
     spec:
       project: default
