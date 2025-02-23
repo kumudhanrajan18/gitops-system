@@ -1,7 +1,0 @@
-apiVersion: kro.run/v1alpha1
-kind: dev-core-network
-metadata:
-  name: dev-core-network
-spec:
-  name: dev-core-network
-  region: eu-central-1
