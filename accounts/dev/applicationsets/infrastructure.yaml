@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-infrastructure
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: dev-core-network
+  template:
+    metadata:
+      name: 'dev-core-network'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: accounts/dev/infrastructure
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: kro-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
