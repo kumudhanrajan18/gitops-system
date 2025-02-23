@@ -4,4 +4,5 @@ metadata:
   name: dev-core-network
 spec:
   name: dev-core-network
+  namespace: kro-system
   region: eu-central-1
