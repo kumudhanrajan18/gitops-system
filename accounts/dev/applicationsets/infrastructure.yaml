@@ -4,6 +4,10 @@ metadata:
   name: dev-core-network
   namespace: argocd
 spec:
+  generators:
+  - list:
+      elements:
+      - name: dev-core-network
   template:
     metadata:
       name: 'dev-core-network'
