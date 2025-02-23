@@ -1,5 +1,5 @@
 apiVersion: kro.run/v1alpha1
-kind: dev-core-network
+kind: CoreNetwork
 metadata:
   name: dev-core-network
 spec:
