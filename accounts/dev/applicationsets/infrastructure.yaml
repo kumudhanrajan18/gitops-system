@@ -1,4 +1,3 @@
-# accounts/dev/applicationsets/infrastructure.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -9,8 +8,8 @@ spec:
   - git:
       repoURL: https://github.com/kumudhanrajan18/gitops-system.git
       revision: HEAD
-      directories:
-      - path: accounts/dev/infrastructure/*
+      files:
+      - path: "accounts/dev/infrastructure/**/*.yaml"
   template:
     metadata:
       name: 'dev-infra-{{path.basename}}'
@@ -20,7 +19,7 @@ spec:
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: '{{path}}'
+        path: '{{path.dir}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
