@@ -1,25 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: dev-infrastructure
+  name: dev-core-network
   namespace: argocd
 spec:
-  generators:
-  - git:
-      repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-      revision: HEAD
-      files:
-      - path: "accounts/dev/infrastructure/**/*.yaml"
   template:
     metadata:
-      name: 'dev-infra-{{path.basename}}'
+      name: 'dev-core-network'
       namespace: argocd
     spec:
       project: default
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: '{{path.dir}}'
+        path: accounts/dev/infrastructure
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
