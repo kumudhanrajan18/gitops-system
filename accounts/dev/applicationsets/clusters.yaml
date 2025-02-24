@@ -14,6 +14,8 @@ spec:
     metadata:
       name: 'dev-cluster-{{path.basename}}'
       namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "4"  # After Infrastructure AS
     spec:
       project: default
       source:

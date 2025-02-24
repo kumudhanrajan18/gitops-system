@@ -12,6 +12,8 @@ spec:
     metadata:
       name: 'dev-core-network'
       namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "2"  # After Accounts AS
     spec:
       project: default
       source:

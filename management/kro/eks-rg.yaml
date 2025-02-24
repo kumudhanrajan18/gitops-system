@@ -17,12 +17,8 @@ spec:
         controlplane:
           subnet1ID: string
           subnet2ID: string
-        workers:
-          subnet1ID: string
-          subnet2ID: string
       accountId: string
       k8sVersion: string
-      nodesCount: integer
   resources:
   - id: clusterRole
     template:
@@ -81,6 +77,8 @@ spec:
             ]
           }
   - id: ekscluster
+    dependsOn:
+      - clusterRole
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: Cluster
@@ -90,28 +88,23 @@ spec:
       spec:
         name: ${schema.spec.name}
         roleARN: ${clusterRole.status.ackResourceMetadata.arn}
+        version: ${schema.spec.k8sVersion}
         accessConfig:
           authenticationMode: "API_AND_CONFIG_MAP"
-        computeConfig:
-          enabled: true
-          nodeRoleARN: ${nodeRole.status.ackResourceMetadata.arn}
-          nodePools:
-            - system
-            - general-purpose
         kubernetesNetworkConfig:
           ipFamily: ipv4
-          elasticLoadBalancing:
-            enabled: true
-        storageConfig:
-          blockStorage:
-            enabled: true
         resourcesVPCConfig:
-          endpointPrivateAccess: false
+          endpointPrivateAccess: true
           endpointPublicAccess: true
-          subnetIDs:
-            - ${schema.spec.subnets.controlplane.subnet1ID}
-            - ${schema.spec.subnets.controlplane.subnet2ID}
-        #version: ${schema.spec.k8sVersion} a bug needs to be fixed for this to work
+          subnetRefs:
+            - from:
+                name: ${schema.spec.subnets.controlplane.public1Name}
+            - from:
+                name: ${schema.spec.subnets.controlplane.public2Name}
+            - from:
+                name: ${schema.spec.subnets.controlplane.private1Name}
+            - from:
+                name: ${schema.spec.subnets.controlplane.private2Name}
   # - id: argocdRole
   #   template:
   #     apiVersion: iam.services.k8s.aws/v1alpha1
