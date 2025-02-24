@@ -15,8 +15,8 @@ spec:
       region: string
       subnets:
         controlplane:
-          subnet1ID: string
-          subnet2ID: string
+          subnet1Name: string
+          subnet2Name: string
       accountId: string
       k8sVersion: string
   resources:
@@ -98,13 +98,9 @@ spec:
           endpointPublicAccess: true
           subnetRefs:
             - from:
-                name: ${schema.spec.subnets.controlplane.public1Name}
+                name: ${schema.spec.subnets.controlplane.subnet1Name}
             - from:
-                name: ${schema.spec.subnets.controlplane.public2Name}
-            - from:
-                name: ${schema.spec.subnets.controlplane.private1Name}
-            - from:
-                name: ${schema.spec.subnets.controlplane.private2Name}
+                name: ${schema.spec.subnets.controlplane.subnet2Name}
   # - id: argocdRole
   #   template:
   #     apiVersion: iam.services.k8s.aws/v1alpha1
