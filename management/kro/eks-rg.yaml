@@ -11,6 +11,7 @@ spec:
     kind: EksCluster
     spec:
       name: string
+      namespace: string
       region: string
       subnets:
         controlplane:
