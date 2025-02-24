@@ -87,7 +87,9 @@ spec:
         name: ${schema.spec.name}
       spec:
         name: ${schema.spec.name}
-        roleARN: ${clusterRole.status.ackResourceMetadata.arn}
+        roleRef:
+          from:
+            name: ${schema.spec.name}-cluster-role
         version: ${schema.spec.k8sVersion}
         accessConfig:
           authenticationMode: "API_AND_CONFIG_MAP"
