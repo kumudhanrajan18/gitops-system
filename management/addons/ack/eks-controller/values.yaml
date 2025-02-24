@@ -43,7 +43,7 @@ eks-chart:
   
   serviceAccount:
     create: true
-    name: eks-ack
+    name: ack-eks-controller
     namespace: ack-system
 
   nodeSelector:
