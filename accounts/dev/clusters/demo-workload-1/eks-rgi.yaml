@@ -10,5 +10,5 @@ spec:
     controlplane:
       subnet1Name: dev-core-network-private-subnet1
       subnet2Name: dev-core-network-private-subnet2
-  accountId: 208875563909
-  k8sVersion: 1.31
+  accountId: "208875563909"
+  k8sVersion: "1.31"
