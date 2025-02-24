@@ -43,7 +43,7 @@ iam-chart:
   
   serviceAccount:
     create: true
-    name: ack-iam-controller
+    name: iam-ack
     namespace: ack-system
 
   nodeSelector:

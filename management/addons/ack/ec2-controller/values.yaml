@@ -43,7 +43,7 @@ ec2-chart:
   
   serviceAccount:
     create: true
-    name: ack-ec2-controller
+    name: ec2-ack
     namespace: ack-system
 
   nodeSelector:
