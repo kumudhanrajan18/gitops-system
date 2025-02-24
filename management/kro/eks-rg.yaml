@@ -175,16 +175,16 @@ spec:
   #           type: "cluster"
   #         policyARN: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
   #       principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
-  - id: oidcProvider
-    template:
-      apiVersion: iam.services.k8s.aws/v1alpha1
-      kind: OpenIDConnectProvider
-      metadata:
-        namespace: ${schema.spec.namespace}
-        name: ${schema.spec.name}-odic
-      spec:
-        url: ${ekscluster.status.identity.oidc.issuer}
-        clientIDs:
-          - sts.amazonaws.com
-        thumbprints:
-          - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
+  # - id: oidcProvider
+  #   template:
+  #     apiVersion: iam.services.k8s.aws/v1alpha1
+  #     kind: OpenIDConnectProvider
+  #     metadata:
+  #       namespace: ${schema.spec.namespace}
+  #       name: ${schema.spec.name}-odic
+  #     spec:
+  #       url: ${ekscluster.status.identity.oidc.issuer}
+  #       clientIDs:
+  #         - sts.amazonaws.com
+  #       thumbprints:
+  #         - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
