@@ -11,6 +11,7 @@ spec:
     kind: CoreNetwork
     spec:
       name: string
+      namespace: string
       region: string
       cidr:
         vpcCidr: string | default="10.0.0.0/16"
