@@ -76,6 +76,32 @@ spec:
               }
             ]
           }
+
+  - id: fargateExecutionRole
+    template:
+      apiVersion: iam.services.k8s.aws/v1alpha1
+      kind: Role
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-fargate-pod-execution-role
+      spec:
+        name: ${schema.spec.name}-fargate-pod-execution-role
+        policies:
+        - arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
+        assumeRolePolicyDocument: |
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "eks-fargate-pods.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+
   - id: ekscluster
     dependsOn:
       - clusterRole
@@ -103,6 +129,32 @@ spec:
                 name: ${schema.spec.subnets.controlplane.subnet1Name}
             - from:
                 name: ${schema.spec.subnets.controlplane.subnet2Name}
+
+  - id: fargateProfile
+    dependsOn:
+      - ekscluster
+      - fargateExecutionRole
+    template:
+      apiVersion: eks.services.k8s.aws/v1alpha1
+      kind: FargateProfile
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-fargate-profile
+      spec:
+        name: ${schema.spec.name}-fargate-profile
+        clusterRef:
+          from:
+            name: ${schema.spec.name}
+        podExecutionRoleRef:
+          from:
+            name: ${schema.spec.name}-fargate-pod-execution-role
+        selectors:
+          - namespace: karpenter
+        subnetRefs:
+          - from:
+              name: ${schema.spec.subnets.controlplane.subnet1Name}
+          - from:
+              name: ${schema.spec.subnets.controlplane.subnet2Name}
   # - id: argocdRole
   #   template:
   #     apiVersion: iam.services.k8s.aws/v1alpha1
