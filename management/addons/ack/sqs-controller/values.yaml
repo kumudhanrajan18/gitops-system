@@ -1,0 +1,50 @@
+iam-chart:
+  aws:
+    region: eu-west-1
+  
+  controller:
+    env:
+      - name: AWS_REGION
+        value: eu-west-1
+      - name: ACK_WATCH_NAMESPACE
+        value: ""
+      - name: DELETION_POLICY
+        value: delete
+    
+    ports:
+      - name: health
+        containerPort: 8081
+    
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8081
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 5
+    
+    readinessProbe:
+      httpGet:
+        path: /readyz
+        port: 8081
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      timeoutSeconds: 10
+      failureThreshold: 5
+    
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 250m
+        memory: 128Mi
+  
+  serviceAccount:
+    create: true
+    name: ack-sqs-controller
+    namespace: ack-system
+
+  nodeSelector:
+    kubernetes.io/os: linux

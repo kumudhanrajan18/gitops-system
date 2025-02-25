@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ack-eventbridge-controller
+description: AWS Controllers for Kubernetes (ACK) EventBridge Controller
+version: 0.1.0
+type: application
+dependencies:
+  - name: eventbridge-chart
+    version: "1.0.20"
+    repository: oci://public.ecr.aws/aws-controllers-k8s
