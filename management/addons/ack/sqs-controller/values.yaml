@@ -1,4 +1,4 @@
-iam-chart:
+sqs-chart:
   aws:
     region: eu-west-1
   

@@ -1,4 +1,4 @@
-iam-chart:
+eventbridge-chart:
   aws:
     region: eu-west-1
   
