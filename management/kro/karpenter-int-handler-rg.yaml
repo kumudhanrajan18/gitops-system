@@ -1,0 +1,68 @@
+apiVersion: kro.run/v1alpha1
+kind: ResourceGroup
+metadata:
+  name: karpenter-int-handler.kro.run
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: KarpenterIntHandler
+    spec:
+      name: string
+      namespace: string
+      region: string
+      accountId: string
+  - id: interruptionQueue
+    template:
+      apiVersion: sqs.services.k8s.aws/v1alpha1
+      kind: Queue
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-spot-interruption
+      spec:
+        name: ${schema.spec.name}-spot-interruption
+        messageRetentionPeriod: 300
+        visibilityTimeout: 30
+        tags:
+          Name: ${schema.spec.name}-spot-interruption
+
+  - id: spotInterruptionRule
+    dependsOn:
+      - interruptionQueue
+    template:
+      apiVersion: eventbridge.services.k8s.aws/v1alpha1
+      kind: Rule
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-spot-interruption
+      spec:
+        name: ${schema.spec.name}-spot-interruption
+        eventPattern: |
+          {
+            "source": ["aws.ec2"],
+            "detail-type": ["EC2 Spot Instance Interruption"]
+          }
+        targets:
+          - arn: ${interruptionQueue.status.queueArn}
+            id: "SpotInterruptionQueue"
+
+  - id: rebalanceRule
+    dependsOn:
+      - interruptionQueue
+    template:
+      apiVersion: eventbridge.services.k8s.aws/v1alpha1
+      kind: Rule
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-rebalance
+      spec:
+        name: ${schema.spec.name}-rebalance
+        eventPattern: |
+          {
+            "source": ["aws.ec2"],
+            "detail-type": ["EC2 Instance Rebalance Recommendation"]
+          }
+        targets:
+          - arn: ${interruptionQueue.status.queueArn}
+            id: "RebalanceQueue"

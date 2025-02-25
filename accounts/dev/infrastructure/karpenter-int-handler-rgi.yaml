@@ -1,0 +1,10 @@
+# apiVersion: kro.run/v1alpha1
+# kind: KarpenterIntHandler
+# metadata:
+#   name: dev-karpenter-int-handler
+# spec:
+#   name: dev-karpenter-int-handler
+#   namespace: kro-system
+#   region: eu-west-1
+#   accountId: "208875563909"
+# #
