@@ -46,7 +46,7 @@ spec:
             "detail-type": ["EC2 Spot Instance Interruption"]
           }
         targets:
-          - arn: ${interruptionQueue.status.queueArn}
+          - arn: ${interruptionQueue.status.queueARN}
             id: "SpotInterruptionQueue"
 
   - id: rebalanceRule
@@ -66,5 +66,5 @@ spec:
             "detail-type": ["EC2 Instance Rebalance Recommendation"]
           }
         targets:
-          - arn: ${interruptionQueue.status.queueArn}
+          - arn: ${interruptionQueue.status.queueARN}
             id: "RebalanceQueue"
