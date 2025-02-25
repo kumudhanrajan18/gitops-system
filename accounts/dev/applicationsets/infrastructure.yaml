@@ -7,10 +7,10 @@ spec:
   generators:
   - list:
       elements:
-      - name: dev-core-network
+      - name: dev-infrastructure
   template:
     metadata:
-      name: 'dev-core-network'
+      name: 'dev-infrastructure'
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "3"  # After Accounts AS
