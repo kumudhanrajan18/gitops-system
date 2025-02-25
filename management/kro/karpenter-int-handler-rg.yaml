@@ -23,9 +23,9 @@ spec:
         namespace: ${schema.spec.namespace}
         name: ${schema.spec.name}-spot-interruption
       spec:
-        name: ${schema.spec.name}-spot-interruption
-        messageRetentionPeriod: 300
-        visibilityTimeout: 30
+        queueName: ${schema.spec.name}-spot-interruption
+        messageRetentionPeriod: "300"
+        visibilityTimeout: "30"
         tags:
           Name: ${schema.spec.name}-spot-interruption
 
