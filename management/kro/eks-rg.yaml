@@ -120,13 +120,13 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "arn:aws:iam::${schema.spec.accountId}:oidc-provider/${string.replace(ekscluster.status.identity.oidc.issuer, 'https://', '')}"
+                  "Federated": "arn:aws:iam::${schema.spec.accountId}:oidc-provider/${trim(ekscluster.status.identity.oidc.issuer, 'https://')}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "${string.replace(ekscluster.status.identity.oidc.issuer, 'https://', '')}:aud": "sts.amazonaws.com",
-                    "${string.replace(ekscluster.status.identity.oidc.issuer, 'https://', '')}:sub": "system:serviceaccount:karpenter:karpenter"
+                    "${trim(ekscluster.status.identity.oidc.issuer, 'https://')}:aud": "sts.amazonaws.com",
+                    "${trim(ekscluster.status.identity.oidc.issuer, 'https://')}:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }
@@ -159,6 +159,7 @@ spec:
                 }
               ]
             }
+
 
 
 
