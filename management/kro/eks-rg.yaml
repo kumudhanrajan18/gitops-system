@@ -104,15 +104,15 @@ spec:
 
   - id: karpenterControllerRole
     dependsOn:
-      - ekscluster
+      - oidcProvider
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
       metadata:
-        namespace: ${schema.spec.namespace}
-        name: ${schema.spec.name}-karpenter-controller
+        namespace: ${spec.namespace}
+        name: ${spec.name}-karpenter-controller
       spec:
-        name: ${schema.spec.name}-karpenter-controller
+        name: ${spec.name}-karpenter-controller
         assumeRolePolicyDocument: |
           {
             "Version": "2012-10-17",
@@ -120,13 +120,13 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "arn:aws:iam::${schema.spec.accountId}:oidc-provider/${ekscluster.status.identity.oidc.issuer.substring(8)}"
+                  "Federated": "${oidcProvider.status.ackResourceMetadata.arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "${ekscluster.status.identity.oidc.issuer.substring(8)}:aud": "sts.amazonaws.com",
-                    "${ekscluster.status.identity.oidc.issuer.substring(8)}:sub": "system:serviceaccount:karpenter:karpenter"
+                    "${oidcProvider.spec.url.substring(8)}:aud": "sts.amazonaws.com",
+                    "${oidcProvider.spec.url.substring(8)}:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }
@@ -159,10 +159,6 @@ spec:
                 }
               ]
             }
-
-
-
-
 
   - id: ekscluster
     dependsOn:
