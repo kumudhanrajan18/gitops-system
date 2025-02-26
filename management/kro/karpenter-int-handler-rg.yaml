@@ -14,8 +14,6 @@ spec:
       namespace: string
       region: string
       accountId: string
-    status:
-      queueARN: ${interruptionQueue.status.queueARN}
   resources:
   - id: interruptionQueue
     template:
@@ -45,10 +43,10 @@ spec:
         eventPattern: |
           {
             "source": ["aws.ec2"],
-            "detail-type": ["EC2 Spot Instance Interruption"]
+            "detail-type": ["EC2 Spot Instance Interruption Warning"]
           }
         targets:
-          - arn: ${interruptionQueue.status.queueARN}
+          - arn: ${interruptionQueue.status.ackResourceMetadata.arn}
             id: "SpotInterruptionQueue"
 
   - id: rebalanceRule
@@ -68,5 +66,5 @@ spec:
             "detail-type": ["EC2 Instance Rebalance Recommendation"]
           }
         targets:
-          - arn: ${interruptionQueue.status.queueARN}
+          - arn: ${interruptionQueue.status.ackResourceMetadata.arn}
             id: "RebalanceQueue"
