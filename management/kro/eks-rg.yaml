@@ -109,8 +109,8 @@ spec:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
       metadata:
-        namespace: ${spec.namespace}
-        name: ${spec.name}-karpenter-controller
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-karpenter-controller
       spec:
         name: ${spec.name}-karpenter-controller
         assumeRolePolicyDocument: |
