@@ -330,3 +330,25 @@ spec:
             type: "cluster"
           policyARN: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
         principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
+
+  - id: cluster-info-cm
+    dependsOn:
+      - ekscluster
+      - oidcProvider
+      - karpenterControllerRole
+      - nodeRole
+      - karpenterInstanceProfile
+    template:
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: ${schema.spec.name}-cluster-info
+        namespace: ${schema.spec.namespace}
+      data:
+        cluster_name: ${schema.spec.name}
+        cluster_endpoint: ${ekscluster.status.endpoint}
+        oidc_provider_arn: ${oidcProvider.status.ackResourceMetadata.arn}
+        oidc_provider_url: ${oidcProvider.spec.url.substring(8)}
+        controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
+        node_role_name: ${schema.spec.name}-cluster-node-role
+        instance_profile_name: ${schema.spec.name}-karpenter-instance-profile
