@@ -173,7 +173,7 @@ spec:
         name: ${schema.spec.name}-karpenter-instance-profile
       spec:
         name: ${schema.spec.name}-karpenter-instance-profile
-        roles:
+        role:
           - ${schema.spec.name}-cluster-node-role
 
 
