@@ -61,8 +61,10 @@ spec:
       spec:
         name: ${schema.spec.name}-cluster-node-role
         policies:
-        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodeMinimalPolicy
-        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
         assumeRolePolicyDocument: |
           {
             "Version": "2012-10-17",
@@ -159,6 +161,21 @@ spec:
                 }
               ]
             }
+
+  - id: karpenterInstanceProfile
+      dependsOn:
+        - karpenterControllerRole
+      template:
+        apiVersion: iam.services.k8s.aws/v1alpha1
+        kind: InstanceProfile
+        metadata:
+          namespace: ${schema.spec.namespace}
+          name: ${schema.spec.name}-karpenter-instance-profile
+        spec:
+          name: ${schema.spec.name}-karpenter-instance-profile
+          roles:
+            - ${schema.spec.name}-cluster-node-role
+
 
   - id: ekscluster
     dependsOn:
