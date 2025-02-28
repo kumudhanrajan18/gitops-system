@@ -331,7 +331,7 @@ spec:
           policyARN: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
         principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
 
-  - id: cluster-info-cm
+  - id: clusterInfo
     dependsOn:
       - ekscluster
       - oidcProvider
