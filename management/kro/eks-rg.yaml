@@ -163,18 +163,18 @@ spec:
             }
 
   - id: karpenterInstanceProfile
-      dependsOn:
-        - karpenterControllerRole
-      template:
-        apiVersion: iam.services.k8s.aws/v1alpha1
-        kind: InstanceProfile
-        metadata:
-          namespace: ${schema.spec.namespace}
-          name: ${schema.spec.name}-karpenter-instance-profile
-        spec:
-          name: ${schema.spec.name}-karpenter-instance-profile
-          roles:
-            - ${schema.spec.name}-cluster-node-role
+    dependsOn:
+      - karpenterControllerRole
+    template:
+      apiVersion: iam.services.k8s.aws/v1alpha1
+      kind: InstanceProfile
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-karpenter-instance-profile
+      spec:
+        name: ${schema.spec.name}-karpenter-instance-profile
+        roles:
+          - ${schema.spec.name}-cluster-node-role
 
 
   - id: ekscluster
