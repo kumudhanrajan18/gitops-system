@@ -1,0 +1,131 @@
+apiVersion: kro.run/v1alpha1
+kind: ResourceGroup
+metadata:
+  name: karpenter.kro.run
+spec:
+  schema:
+    apiVersion: v1alpha1
+    kind: KarpenterCore
+    spec:
+      name: string
+      namespace: string
+      clusterName: string
+      clusterEndpoint: string
+      roleArn: string
+      instanceProfile: string
+      nodeClass:
+        name: string
+        role: string
+        amiFamily: string
+        subnetSelector: map[string]string
+        securityGroupSelector: map[string]string
+      nodePool:
+        name: string
+        limits:
+          cpu: string
+          memory: string
+        capacityTypes: [string]
+  resources:
+  - id: karpenterNamespace
+    template:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: karpenter
+
+  - id: karpenterServiceAccount
+    template:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: karpenter
+        namespace: karpenter
+        annotations:
+          eks.amazonaws.com/role-arn: ${configmap(schema.spec.configMapRef.name, schema.spec.configMapRef.namespace).controller_role_arn}
+
+  # - id: karpenterCore
+  #   dependsOn:
+  #     - karpenterNamespace
+  #     - karpenterServiceAccount
+  #   template:
+  #     apiVersion: argoproj.io/v1alpha1
+  #     kind: Application
+  #     metadata:
+  #       name: karpenter
+  #       namespace: argocd
+  #     spec:
+  #       project: default
+  #       source:
+  #         repoURL: https://charts.karpenter.sh
+  #         targetRevision: v0.35.1
+  #         chart: karpenter
+  #         helm:
+  #           values: |
+  #             serviceAccount:
+  #               create: false
+  #               name: karpenter
+  #             settings:
+  #               aws:
+  #                 clusterName: ${spec.clusterName}
+  #                 clusterEndpoint: ${spec.clusterEndpoint}
+  #                 defaultInstanceProfile: ${spec.instanceProfile}
+  #             controller:
+  #               resources:
+  #                 requests:
+  #                   cpu: 1
+  #                   memory: 1Gi
+  #                 limits:
+  #                   cpu: 1
+  #                   memory: 1Gi
+  #       destination:
+  #         server: ${spec.clusterEndpoint}
+  #         namespace: karpenter
+  #       syncPolicy:
+  #         automated:
+  #           prune: true
+  #           selfHeal: true
+  #         syncOptions:
+  #         - CreateNamespace=true
+
+  # - id: defaultNodeClass
+  #   dependsOn:
+  #     - karpenterCore
+  #   template:
+  #     apiVersion: karpenter.k8s.aws/v1alpha1
+  #     kind: EC2NodeClass
+  #     metadata:
+  #       name: ${spec.nodeClass.name}
+  #       namespace: karpenter
+  #     spec:
+  #       amiFamily: ${spec.nodeClass.amiFamily}
+  #       role: ${spec.nodeClass.role}
+  #       subnetSelectorTerms:
+  #         - tags: ${spec.nodeClass.subnetSelector}
+  #       securityGroupSelectorTerms:
+  #         - tags: ${spec.nodeClass.securityGroupSelector}
+
+  # - id: defaultNodePool
+  #   dependsOn:
+  #     - defaultNodeClass
+  #   template:
+  #     apiVersion: karpenter.sh/v1alpha5
+  #     kind: NodePool
+  #     metadata:
+  #       name: ${spec.nodePool.name}
+  #       namespace: karpenter
+  #     spec:
+  #       template:
+  #         spec:
+  #           nodeClassRef:
+  #             name: ${spec.nodeClass.name}
+  #           requirements:
+  #             - key: karpenter.sh/capacity-type
+  #               operator: In
+  #               values: ${spec.nodePool.capacityTypes}
+  #             - key: kubernetes.io/arch
+  #               operator: In
+  #               values: ["amd64"]
+  #       limits:
+  #         cpu: ${spec.nodePool.limits.cpu}
+  #         memory: ${spec.nodePool.limits.memory}
+
