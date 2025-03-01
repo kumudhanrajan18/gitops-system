@@ -24,7 +24,6 @@ spec:
         limits:
           cpu: string
           memory: string
-        capacityTypes: [string]
   resources:
   - id: karpenterNamespace
     template:
