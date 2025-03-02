@@ -1,7 +1,7 @@
 apiVersion: kro.run/v1alpha1
 kind: KarpenterCore
 metadata:
-  name: dev-demo-workload-1-Karpenter
+  name: dev-demo-workload-1-karpenter
 spec:
   name: demo-workload-1
   namespace: kro-system
