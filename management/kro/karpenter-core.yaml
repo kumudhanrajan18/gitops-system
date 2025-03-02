@@ -5,34 +5,26 @@ metadata:
 spec:
   schema:
     apiVersion: v1alpha1
-    kind: KarpenterCore
+    kind: KarpenterDeployment
     spec:
       name: string
       namespace: string
-      clusterName: string
-      clusterEndpoint: string
-      roleArn: string
-      instanceProfile: string
-      nodeClass:
+      configMapRef:
         name: string
-        role: string
-        amiFamily: string
-        subnetSelector: map[string]string
-        securityGroupSelector: map[string]string
-      nodePool:
-        name: string
-        limits:
-          cpu: string
-          memory: string
+        namespace: string
   resources:
-  - id: karpenterNamespace
+  - id: clusterConfig
     template:
       apiVersion: v1
-      kind: Namespace
+      kind: ConfigMap
       metadata:
-        name: karpenter
+        name: ${spec.configMapRef.name}
+        namespace: ${spec.configMapRef.namespace}
+      external: true  # This indicates we're referencing an existing resource
 
   - id: karpenterServiceAccount
+    dependsOn:
+      - clusterConfig
     template:
       apiVersion: v1
       kind: ServiceAccount
@@ -40,7 +32,7 @@ spec:
         name: karpenter
         namespace: karpenter
         annotations:
-          eks.amazonaws.com/role-arn: ${configmap(schema.spec.configMapRef.name, schema.spec.configMapRef.namespace).controller_role_arn}
+          eks.amazonaws.com/role-arn: ${clusterConfig.data.controller_role_arn}
 
   # - id: karpenterCore
   #   dependsOn:
