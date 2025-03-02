@@ -12,19 +12,19 @@ spec:
       configMapRef:
         name: string
         namespace: string
+  watchResources:
+    - group: ""
+      version: v1
+      kind: ConfigMap
   resources:
-  - id: clusterConfig
+  - id: karpenterNamespace
     template:
       apiVersion: v1
-      kind: ConfigMap
+      kind: Namespace
       metadata:
-        name: ${schema.spec.configMapRef.name}
-        namespace: ${schema.spec.configMapRef.namespace}
-      external: true  # This indicates we're referencing an existing resource
+        name: karpenter
 
   - id: karpenterServiceAccount
-    dependsOn:
-      - clusterConfig
     template:
       apiVersion: v1
       kind: ServiceAccount
@@ -32,7 +32,7 @@ spec:
         name: karpenter
         namespace: karpenter
         annotations:
-          eks.amazonaws.com/role-arn: ${clusterConfig.data.controller_role_arn}
+          eks.amazonaws.com/role-arn: ${resource.configmap[schema.spec.configMapRef.name, schema.spec.configMapRef.namespace].data.controller_role_arn}
 
   # - id: karpenterCore
   #   dependsOn:
