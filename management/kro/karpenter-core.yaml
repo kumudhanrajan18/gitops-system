@@ -23,13 +23,31 @@ spec:
   #     kind: Namespace
   #     metadata:
   #       name: karpenter
+  - id: clusterConfigMap
+    template:
+      apiVersion: services.k8s.aws/v1alpha1
+      kind: AdoptedResource
+      metadata:
+        name: ${spec.name}-cluster-config
+        namespace: ${spec.namespace}
+      spec:
+        kubernetes:
+          group: ""
+          kind: ConfigMap
+          metadata:
+            name: ${spec.configMapRef.name}
+            namespace: ${spec.configMapRef.namespace}
+          annotations:
+            services.k8s.aws/read-only: "true"
 
   - id: karpenterServiceAccount
+    dependsOn:
+      - clusterConfigMap
     template:
       apiVersion: v1
       kind: ServiceAccount
       metadata:
         name: karpenter-test
-        namespace: karpenter
+        namespace: kro-system
         annotations:
-          eks.amazonaws.com/role-arn: ${lookup("v1", "Configmap", schema.spec.configMapRef.namespace, schema.spec.configMapRef.name).data["controller_role_arn"]}
+          eks.amazonaws.com/role-arn: ${clusterConfigMap.status.resource.data.controller_role_arn}
