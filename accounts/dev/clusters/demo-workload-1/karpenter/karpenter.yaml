@@ -1,0 +1,11 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterCore
+metadata:
+  name: dev-demo-workload-1-Karpenter
+spec:
+  name: demo-workload-1
+  namespace: kro-system
+  configMapRef:
+    name: demo-workload-1-cluster-info
+    namespace: kro-system
+

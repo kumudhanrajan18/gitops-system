@@ -17,19 +17,19 @@ spec:
       version: v1
       kind: ConfigMap
   resources:
-  - id: karpenterNamespace
-    template:
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: karpenter
+  # - id: karpenterNamespace
+  #   template:
+  #     apiVersion: v1
+  #     kind: Namespace
+  #     metadata:
+  #       name: karpenter
 
   - id: karpenterServiceAccount
     template:
       apiVersion: v1
       kind: ServiceAccount
       metadata:
-        name: karpenter
+        name: karpenter-test
         namespace: karpenter
         annotations:
           eks.amazonaws.com/role-arn: "{{ (lookup \"v1\" \"configmap\" ${schema.spec.configMapRef.namespace} ${schema.spec.configMapRef.name}).data.controller_role_arn }}"
