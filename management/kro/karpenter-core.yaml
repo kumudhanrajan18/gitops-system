@@ -37,8 +37,8 @@ spec:
           metadata:
             name: ${spec.configMapRef.name}
             namespace: ${spec.configMapRef.namespace}
-          annotations:
-            services.k8s.aws/read-only: "true"
+            annotations:
+              services.k8s.aws/read-only: "true"
 
   - id: karpenterServiceAccount
     dependsOn:
