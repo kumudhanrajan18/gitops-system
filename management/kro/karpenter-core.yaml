@@ -28,15 +28,15 @@ spec:
       apiVersion: services.k8s.aws/v1alpha1
       kind: AdoptedResource
       metadata:
-        name: ${spec.name}-cluster-config
-        namespace: ${spec.namespace}
+        name: ${schema.spec.name}-cluster-config
+        namespace: ${schema.spec.namespace}
       spec:
         kubernetes:
           group: ""
           kind: ConfigMap
           metadata:
-            name: ${spec.configMapRef.name}
-            namespace: ${spec.configMapRef.namespace}
+            name: ${schema.spec.configMapRef.name}
+            namespace: ${schema.spec.configMapRef.namespace}
             annotations:
               services.k8s.aws/read-only: "true"
 
