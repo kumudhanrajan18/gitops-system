@@ -1,27 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: dev-clusters
+  name: dev-demo-workload-1-karpenter
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-      revision: HEAD
-      directories:
-      - path: accounts/dev/clusters/*
+  - list:
+      elements:
+      - name: dev-demo-workload-1-karpenter
   template:
     metadata:
-      name: 'dev-cluster-{{path.basename}}'
+      name: 'dev-demo-workload-1-karpenter'
       namespace: argocd
       annotations:
-        argocd.argoproj.io/sync-wave: "4"  # After Infrastructure AS
+        argocd.argoproj.io/sync-wave: "5"  # After Accounts AS
     spec:
       project: default
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: '{{path}}/applicationsets'
+        path: accounts/dev/clusters/demo-workload-1/karpenter
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
