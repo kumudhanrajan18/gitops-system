@@ -50,4 +50,4 @@ spec:
         name: karpenter-test
         namespace: kro-system
         annotations:
-          eks.amazonaws.com/role-arn: ${clusterConfigMap.status.resource.data.controller_role_arn}
+          eks.amazonaws.com/role-arn: ${clusterConfigMap.spec.kubernetes.metadata.data.controller_role_arn}
