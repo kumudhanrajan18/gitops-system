@@ -9,8 +9,8 @@ spec:
       repoURL: https://github.com/kumudhanrajan18/gitops-system.git
       revision: HEAD
       directories:
-      - path: accounts/dev/clusters/*
-      - path: accounts/dev/clusters/karpenter
+      - path: accounts/dev/clusters/**/*
+      #- path: accounts/dev/clusters/applicationsets
   template:
     metadata:
       name: 'dev-cluster-{{path.basename}}'
