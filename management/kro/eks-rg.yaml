@@ -234,7 +234,11 @@ spec:
 
   - id: clusterInfo
     dependsOn:
+      - ekscluster
       - oidcProvider
+      - karpenterControllerRole
+      - nodeRole
+      - karpenterInstanceProfile
     template:
       apiVersion: secretsmanager.services.k8s.aws/v1alpha1
       kind: Secret
@@ -244,15 +248,8 @@ spec:
       spec:
         name: ${schema.spec.name}-cluster-info
         description: "Cluster information for ${schema.spec.name}"
-        secretString:
-          key: "cluster-info"
-          name: ${schema.spec.name}-cluster-info
-          namespace: ${schema.spec.namespace}
-        secretString: |
-          {
-            "oidc_provider_arn": "${oidcProvider.status.ackResourceMetadata.arn}",
-            "oidc_provider_url": "${oidcProvider.spec.url.substring(8)}"
-          }
+        secretString: "{\"oidc_provider_arn\":\"${oidcProvider.status.ackResourceMetadata.arn}\",\"oidc_provider_url\":\"${oidcProvider.spec.url.substring(8)}\"}"
+
 
   - id: clusterInfoCM
     dependsOn:
