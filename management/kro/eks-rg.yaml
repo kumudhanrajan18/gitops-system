@@ -250,7 +250,7 @@ spec:
         description: "Cluster information for ${schema.spec.name}"
         secretString:
           key: "cluster-info"
-          name: ${schema.spec.name}-cluster-info
+          name: ${schema.spec.name}-cluster-info-k8s  # Match this with Kubernetes secret name
           namespace: ${schema.spec.namespace}
         tags:
           - key: "Name"
@@ -267,10 +267,10 @@ spec:
       apiVersion: v1
       kind: Secret
       metadata:
-        name: ${schema.spec.name}-cluster-info-value
+        name: ${schema.spec.name}-cluster-info-k8s  # This name must match secretString.name
         namespace: ${schema.spec.namespace}
       stringData:
-        cluster-info: |
+        cluster-info: |  # This key must match secretString.key
           {
             "oidc_provider_arn": "${oidcProvider.status.ackResourceMetadata.arn}",
             "oidc_provider_url": "${oidcProvider.spec.url.substring(8)}"
