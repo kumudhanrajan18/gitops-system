@@ -296,7 +296,7 @@ spec:
           accountId: ${schema.spec.accountId}
           region: ${schema.spec.region}
           oidcProvider: ${oidcProvider.spec.url}
-          karpenterRoleArn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
+          # karpenterRoleArn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
       type: Opaque
       stringData:
         name: ${schema.spec.name}
