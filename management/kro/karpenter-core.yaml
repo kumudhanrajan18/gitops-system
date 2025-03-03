@@ -85,7 +85,7 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${clusterOIDC.status.ackResourceMetadata.arn}"
+                  "Federated": "${clusterOIDC.spec.aws.arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
