@@ -254,7 +254,7 @@ spec:
             "oidc_provider_url": "${oidcProvider.spec.url.substring(8)}"
           }
 
-  - id: clusterInfo
+  - id: clusterInfoCM
     dependsOn:
       - ekscluster
       - oidcProvider
