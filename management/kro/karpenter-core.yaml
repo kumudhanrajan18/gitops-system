@@ -20,24 +20,22 @@ spec:
   #     metadata:
   #       name: karpenter
 
-  - id: clusterOIDC
+  - id: clusterInfo
     template:
       apiVersion: services.k8s.aws/v1alpha1
       kind: AdoptedResource
       metadata:
-        name: ${schema.spec.name}-oidc-provider
+        name: ${schema.spec.name}-cluster-info
         namespace: ${schema.spec.namespace}
       spec:
         aws:
-          nameOrID: ${schema.spec.oidcRef.name}
+          nameOrID: ${schema.spec.secretRef.name}
         kubernetes:
-          group: "iam.services.k8s.aws"
-          kind: OpenIDConnectProvider
+          group: "secretsmanager.services.k8s.aws"
+          kind: Secret
           metadata:
-            name: ${schema.spec.oidcRef.name}
-            namespace: ${schema.spec.oidcRef.namespace}
-            annotations:
-              services.k8s.aws/read-only: "true"
+            name: ${schema.spec.secretRef.name}
+            namespace: ${schema.spec.secretRef.namespace}
 
   - id: nodeRole
     template:
@@ -85,13 +83,13 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${clusterOIDC.spec.aws.arn}"
+                  "Federated": "${adopted("${schema.spec.name}-cluster-info").value.controller_role_arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "oidc.eks.${clusterOIDC.spec.kubernetes.metadata.namespace}.amazonaws.com:aud": "sts.amazonaws.com",
-                    "oidc.eks.${clusterOIDC.spec.kubernetes.metadata.namespace}.amazonaws.com:sub": "system:serviceaccount:karpenter:karpenter"
+                    "${clusterInfo.spec.aws.value.oidc_provider_url}:aud": "sts.amazonaws.com",
+                    "${clusterInfo.spec.aws.value.oidc_provider_url}:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }

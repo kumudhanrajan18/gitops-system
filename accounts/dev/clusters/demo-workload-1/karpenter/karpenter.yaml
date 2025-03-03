@@ -5,7 +5,7 @@ metadata:
 spec:
   name: demo-workload-1
   namespace: kro-system
-  oidcRef:
-    name: demo-workload-1-oidc
+  secretRef:
+    name: demo-workload-1-cluster-info
     namespace: kro-system
 
