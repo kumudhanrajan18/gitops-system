@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ack-ssm-controller
+description: AWS Controllers for Kubernetes (ACK) SSM Controller
+version: 0.1.0
+type: application
+dependencies:
+  - name: ssm-chart
+    version: "1.0.4"
+    repository: oci://public.ecr.aws/aws-controllers-k8s

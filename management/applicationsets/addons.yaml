@@ -22,6 +22,9 @@ spec:
       - name: eventbridge-controller
         namespace: ack-system
         path: management/addons/ack/eventbridge-controller
+      - name: ssm-controller
+        namespace: ack-system
+        path: management/addons/ack/ssm-controller
       - name: kro
         namespace: kro-system
         path: management/addons/kro
