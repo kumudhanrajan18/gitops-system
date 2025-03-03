@@ -1,0 +1,9 @@
+apiVersion: v2
+name: ack-secretsmanager-controller
+description: AWS Controllers for Kubernetes (ACK) Secretsmanager Controller
+version: 0.1.0
+type: application
+dependencies:
+  - name: secretsmanager-chart
+    version: "1.0.4"
+    repository: oci://public.ecr.aws/aws-controllers-k8s

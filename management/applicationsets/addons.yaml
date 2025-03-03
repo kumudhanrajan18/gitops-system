@@ -25,6 +25,9 @@ spec:
       - name: ssm-controller
         namespace: ack-system
         path: management/addons/ack/ssm-controller
+      - name: secretsmanager-controller
+        namespace: ack-system
+        path: management/addons/ack/secretsmanager-controller
       - name: kro
         namespace: kro-system
         path: management/addons/kro
