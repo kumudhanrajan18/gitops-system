@@ -9,7 +9,7 @@ spec:
     spec:
       name: string
       namespace: string
-      oidcRef:
+      secretRef:
         name: string
         namespace: string
   resources:
