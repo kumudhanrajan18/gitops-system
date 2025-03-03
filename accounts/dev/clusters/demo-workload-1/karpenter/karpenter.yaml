@@ -5,7 +5,7 @@ metadata:
 spec:
   name: demo-workload-1
   namespace: kro-system
-  configMapRef:
-    name: demo-workload-1-cluster-info
+  oidcRef:
+    name: demo-workload-1-oidc
     namespace: kro-system
 

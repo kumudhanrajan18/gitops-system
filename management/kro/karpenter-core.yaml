@@ -9,13 +9,9 @@ spec:
     spec:
       name: string
       namespace: string
-      configMapRef:
+      oidcRef:
         name: string
         namespace: string
-  # watchResources:
-  #   - group: ""
-  #     version: v1
-  #     kind: ConfigMap
   resources:
   # - id: karpenterNamespace
   #   template:
@@ -23,22 +19,124 @@ spec:
   #     kind: Namespace
   #     metadata:
   #       name: karpenter
-  - id: clusterConfigMap
+
+  - id: clusterOIDC
     template:
       apiVersion: services.k8s.aws/v1alpha1
       kind: AdoptedResource
       metadata:
-        name: ${schema.spec.name}-cluster-config
+        name: ${schema.spec.name}-oidc-provider
         namespace: ${schema.spec.namespace}
       spec:
+        aws:
+          nameOrID: ${schema.spec.oidcRef.name}
         kubernetes:
-          group: ""
-          kind: ConfigMap
+          group: "iam.services.k8s.aws"
+          kind: OpenIDConnectProvider
           metadata:
-            name: ${schema.spec.configMapRef.name}
-            namespace: ${schema.spec.configMapRef.namespace}
+            name: ${schema.spec.oidcRef.name}
+            namespace: ${schema.spec.oidcRef.namespace}
             annotations:
               services.k8s.aws/read-only: "true"
+
+  - id: nodeRole
+    template:
+      apiVersion: iam.services.k8s.aws/v1alpha1
+      kind: Role
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-cluster-node-role
+      spec:
+        name: ${schema.spec.name}-cluster-node-role
+        policies:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        assumeRolePolicyDocument: |
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "ec2.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+
+  - id: karpenterControllerRole
+    dependsOn:
+      - oidcProvider
+    template:
+      apiVersion: iam.services.k8s.aws/v1alpha1
+      kind: Role
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-karpenter-controller
+      spec:
+        name: ${schema.spec.name}-karpenter-controller
+        assumeRolePolicyDocument: |
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Federated": "${clusterOIDC.status.ackResourceMetadata.arn}"
+                },
+                "Action": "sts:AssumeRoleWithWebIdentity",
+                "Condition": {
+                  "StringEquals": {
+                    "${oidcProvider.spec.url.substring(8)}:aud": "sts.amazonaws.com",
+                    "${oidcProvider.spec.url.substring(8)}:sub": "system:serviceaccount:karpenter:karpenter"
+                  }
+                }
+              }
+            ]
+          }
+        inlinePolicies:
+          karpenter-policy: |
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "ec2:CreateLaunchTemplate",
+                    "ec2:CreateFleet",
+                    "ec2:RunInstances",
+                    "ec2:CreateTags",
+                    "iam:PassRole",
+                    "ec2:TerminateInstances",
+                    "ec2:DescribeLaunchTemplates",
+                    "ec2:DescribeInstances",
+                    "ec2:DescribeSecurityGroups",
+                    "ec2:DescribeSubnets",
+                    "ec2:DescribeInstanceTypes",
+                    "ec2:DescribeInstanceTypeOfferings",
+                    "ec2:DescribeAvailabilityZones",
+                    "ssm:GetParameter"
+                  ],
+                  "Resource": "*"
+                }
+              ]
+            }
+
+  - id: karpenterInstanceProfile
+    dependsOn:
+      - nodeRole
+    template:
+      apiVersion: iam.services.k8s.aws/v1alpha1
+      kind: InstanceProfile
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-karpenter-instance-profile
+      spec:
+        name: ${schema.spec.name}-karpenter-instance-profile
+        role: ${schema.spec.name}-cluster-node-role
 
   - id: karpenterServiceAccount
     dependsOn:
@@ -48,6 +146,6 @@ spec:
       kind: ServiceAccount
       metadata:
         name: karpenter-test
-        namespace: kro-system
+        namespace: karpenter
         annotations:
-          eks.amazonaws.com/role-arn: ${clusterConfigMap.spec.kubernetes.metadata.data.controller_role_arn}
+          eks.amazonaws.com/role-arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}

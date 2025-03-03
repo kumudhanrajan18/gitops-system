@@ -51,33 +51,6 @@ spec:
               }
             ]
           }
-  # - id: nodeRole
-  #   template:
-  #     apiVersion: iam.services.k8s.aws/v1alpha1
-  #     kind: Role
-  #     metadata:
-  #       namespace: ${schema.spec.namespace}
-  #       name: ${schema.spec.name}-cluster-node-role
-  #     spec:
-  #       name: ${schema.spec.name}-cluster-node-role
-  #       policies:
-  #       - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
-  #       - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
-  #       - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
-  #       - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-  #       assumeRolePolicyDocument: |
-  #         {
-  #           "Version": "2012-10-17",
-  #           "Statement": [
-  #             {
-  #               "Effect": "Allow",
-  #               "Principal": {
-  #                 "Service": "ec2.amazonaws.com"
-  #               },
-  #               "Action": "sts:AssumeRole"
-  #             }
-  #           ]
-  #         }
 
   - id: fargateExecutionRole
     template:
@@ -103,78 +76,6 @@ spec:
               }
             ]
           }
-
-  # - id: karpenterControllerRole
-  #   dependsOn:
-  #     - oidcProvider
-  #   template:
-  #     apiVersion: iam.services.k8s.aws/v1alpha1
-  #     kind: Role
-  #     metadata:
-  #       namespace: ${schema.spec.namespace}
-  #       name: ${schema.spec.name}-karpenter-controller
-  #     spec:
-  #       name: ${schema.spec.name}-karpenter-controller
-  #       assumeRolePolicyDocument: |
-  #         {
-  #           "Version": "2012-10-17",
-  #           "Statement": [
-  #             {
-  #               "Effect": "Allow",
-  #               "Principal": {
-  #                 "Federated": "${oidcProvider.status.ackResourceMetadata.arn}"
-  #               },
-  #               "Action": "sts:AssumeRoleWithWebIdentity",
-  #               "Condition": {
-  #                 "StringEquals": {
-  #                   "${oidcProvider.spec.url.substring(8)}:aud": "sts.amazonaws.com",
-  #                   "${oidcProvider.spec.url.substring(8)}:sub": "system:serviceaccount:karpenter:karpenter"
-  #                 }
-  #               }
-  #             }
-  #           ]
-  #         }
-  #       inlinePolicies:
-  #         karpenter-policy: |
-  #           {
-  #             "Version": "2012-10-17",
-  #             "Statement": [
-  #               {
-  #                 "Effect": "Allow",
-  #                 "Action": [
-  #                   "ec2:CreateLaunchTemplate",
-  #                   "ec2:CreateFleet",
-  #                   "ec2:RunInstances",
-  #                   "ec2:CreateTags",
-  #                   "iam:PassRole",
-  #                   "ec2:TerminateInstances",
-  #                   "ec2:DescribeLaunchTemplates",
-  #                   "ec2:DescribeInstances",
-  #                   "ec2:DescribeSecurityGroups",
-  #                   "ec2:DescribeSubnets",
-  #                   "ec2:DescribeInstanceTypes",
-  #                   "ec2:DescribeInstanceTypeOfferings",
-  #                   "ec2:DescribeAvailabilityZones",
-  #                   "ssm:GetParameter"
-  #                 ],
-  #                 "Resource": "*"
-  #               }
-  #             ]
-  #           }
-
-  # - id: karpenterInstanceProfile
-  #   dependsOn:
-  #     - nodeRole
-  #   template:
-  #     apiVersion: iam.services.k8s.aws/v1alpha1
-  #     kind: InstanceProfile
-  #     metadata:
-  #       namespace: ${schema.spec.namespace}
-  #       name: ${schema.spec.name}-karpenter-instance-profile
-  #     spec:
-  #       name: ${schema.spec.name}-karpenter-instance-profile
-  #       role: ${schema.spec.name}-cluster-node-role
-
 
   - id: ekscluster
     dependsOn:
