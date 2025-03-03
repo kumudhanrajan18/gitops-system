@@ -232,6 +232,20 @@ spec:
           policyARN: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
         principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
 
+  - id: clusterParamsOIDCArn
+    dependsOn:
+      - oidcProvider
+    template:
+      apiVersion: ssm.services.k8s.aws/v1alpha1
+      kind: Parameter
+      metadata:
+        name: ${schema.spec.name}-oidc-provider-arn
+        namespace: ${schema.spec.namespace}
+      spec:
+        name: "/${schema.spec.name}/oidc-provider-arn"
+        type: "String"
+        value: ${oidcProvider.status.ackResourceMetadata.arn}
+        
   - id: clusterInfo
     dependsOn:
       - ekscluster
