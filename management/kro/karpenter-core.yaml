@@ -67,7 +67,7 @@ spec:
 
   - id: karpenterControllerRole
     dependsOn:
-      - oidcProvider
+      - clusterInfo
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
@@ -83,13 +83,13 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${adopted("${schema.spec.name}-cluster-info").value.controller_role_arn}"
+                  "Federated": "${adopted(schema.spec.secretRef.name).data.oidc_provider_arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "${clusterInfo.spec.aws.value.oidc_provider_url}:aud": "sts.amazonaws.com",
-                    "${clusterInfo.spec.aws.value.oidc_provider_url}:sub": "system:serviceaccount:karpenter:karpenter"
+                    "${adopted(schema.spec.secretRef.name).data.oidc_provider_url}:aud": "sts.amazonaws.com",
+                    "${adopted(schema.spec.secretRef.name).data.oidc_provider_url}:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }
