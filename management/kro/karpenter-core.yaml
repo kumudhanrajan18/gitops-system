@@ -90,8 +90,8 @@ spec:
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "${oidcProvider.spec.url.substring(8)}:aud": "sts.amazonaws.com",
-                    "${oidcProvider.spec.url.substring(8)}:sub": "system:serviceaccount:karpenter:karpenter"
+                    "oidc.eks.${clusterOIDC.spec.kubernetes.metadata.namespace}.amazonaws.com:aud": "sts.amazonaws.com",
+                    "oidc.eks.${clusterOIDC.spec.kubernetes.metadata.namespace}.amazonaws.com:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }
