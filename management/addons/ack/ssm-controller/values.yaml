@@ -1,4 +1,4 @@
-ec2-chart:
+ssm-chart:
   aws:
     region: eu-west-1
   
