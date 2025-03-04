@@ -11,7 +11,7 @@ spec:
     path: accounts/dev/clusters/demo-workload-1/applicationsets
   destination:
     server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
-    namespace: default
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
