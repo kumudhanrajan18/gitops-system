@@ -5,9 +5,10 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - name: dev-demo-workload-1-karpenter
+  - clusters:
+      selector:
+        matchLabels:
+          tenant: workload
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter'
