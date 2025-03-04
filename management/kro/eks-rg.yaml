@@ -162,18 +162,12 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${oidcProvider.status.ackResourceMetadata.arn}"
+                  "AWS": "arn:aws:iam::208875563909:role/ack-iam-20250218200732572900000001"
                 },
                 "Action": [
                   "sts:TagSession",
                   "sts:AssumeRole"
-                ],
-                "Condition": {
-                  "StringEquals": {
-                    "${oidcProvider.spec.url.substring(8)}:aud": "sts.amazonaws.com",
-                    "${oidcProvider.spec.url.substring(8)}:sub": "system:serviceaccount:argocd:argocd-application-controller"
-                  }
-                }
+                ]
               }
             ]
           }
@@ -191,13 +185,11 @@ spec:
         namespace: argocd
         labels:
           argocd.argoproj.io/secret-type: cluster
-          enable_metrics_server: "true"
-          tenant: "spoke"
+          tenant: "workload"
         annotations:
           accountId: ${schema.spec.accountId}
           region: ${schema.spec.region}
           oidcProvider: ${oidcProvider.spec.url}
-          # karpenterRoleArn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
       type: Opaque
       stringData:
         name: ${schema.spec.name}
