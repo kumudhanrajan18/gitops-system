@@ -198,7 +198,7 @@ spec:
           {
             "awsAuthConfig": {
               "clusterName": "${schema.spec.name}",
-              "roleARN": "${argocdRole.status.ackResourceMetadata.arn}"
+              "roleARN": "arn:aws:iam::208875563909:role/Admin"
             },
             "tlsClientConfig": {
               "insecure": false,
