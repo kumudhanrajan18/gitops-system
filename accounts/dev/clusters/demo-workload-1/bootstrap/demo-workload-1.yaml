@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kumudhanrajan18/gitops-system.git
     targetRevision: HEAD
-    path: accounts/dev/clusters/demo-workload-1/applicationsets/karpenter.yaml
+    path: accounts/dev/clusters/demo-workload-1/applicationsets/cluster-workloads
   destination:
     server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
     namespace: argocd
