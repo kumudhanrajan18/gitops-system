@@ -1,0 +1,62 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-demo-workload-1-karpenter-core
+  namespace: argocd
+spec:
+  generators:
+  - clusters:
+      selector:
+        matchLabels:
+          tenant: dev-demo-workload-1
+  template:
+    metadata:
+      name: '{{name}}'
+      annotations:
+        argocd.argoproj.io/sync-wave: "6"
+    spec:
+      project: default
+      sources:
+      - repoURL: https://charts.karpenter.sh
+        targetRevision: v0.33.0
+        chart: karpenter
+        helm:
+          valueFiles:
+          - $values/values.yaml
+          - $values/values-common.yaml
+          values: |
+            global:
+              clusterName: {{name}}
+      - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: accounts/dev/clusters/{{name}}/karpenter/values
+        ref: values
+      - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: accounts/dev/clusters/{{name}}/karpenter/core
+      destination:
+        server: '{{server}}'
+        namespace: karpenter
+      syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
+        automated:
+          prune: true
+          selfHeal: true
+      plugin:
+        env:
+        - name: AWS_ACCOUNT_ID
+          valueFrom:
+            configMapKeyRef:
+              name: karpenter-config
+              key: AWS_ACCOUNT_ID
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: karpenter-config
+              key: AWS_REGION
+        - name: INSTANCE_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: karpenter-config
+              key: INSTANCE_PROFILE

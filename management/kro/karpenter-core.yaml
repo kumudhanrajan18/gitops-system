@@ -9,34 +9,7 @@ spec:
     spec:
       name: string
       namespace: string
-      secretRef:
-        name: string
-        namespace: string
   resources:
-  # - id: karpenterNamespace
-  #   template:
-  #     apiVersion: v1
-  #     kind: Namespace
-  #     metadata:
-  #       name: karpenter
-
-  - id: clusterInfo
-    template:
-      apiVersion: services.k8s.aws/v1alpha1
-      kind: AdoptedResource
-      metadata:
-        name: ${schema.spec.name}-cluster-info
-        namespace: ${schema.spec.namespace}
-      spec:
-        aws:
-          nameOrID: ${schema.spec.secretRef.name}
-        kubernetes:
-          group: "secretsmanager.services.k8s.aws"
-          kind: Secret
-          metadata:
-            name: ${schema.spec.secretRef.name}
-            namespace: ${schema.spec.secretRef.namespace}
-
   - id: nodeRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
@@ -67,7 +40,7 @@ spec:
 
   - id: karpenterControllerRole
     dependsOn:
-      - clusterInfo
+      - nodeRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
@@ -125,7 +98,7 @@ spec:
 
   - id: karpenterInstanceProfile
     dependsOn:
-      - nodeRole
+      - karpenterControllerRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: InstanceProfile
@@ -135,15 +108,21 @@ spec:
       spec:
         name: ${schema.spec.name}-karpenter-instance-profile
         role: ${schema.spec.name}-cluster-node-role
-
-  - id: karpenterServiceAccount
+      
+  - id: KarpenterInfoCM
     dependsOn:
-      - clusterConfigMap
+      - nodeRole
+      - karpenterControllerRole
+      - karpenterInstanceProfile
     template:
       apiVersion: v1
-      kind: ServiceAccount
+      kind: ConfigMap
       metadata:
-        name: karpenter-test
-        namespace: karpenter
-        annotations:
-          eks.amazonaws.com/role-arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
+        name: ${schema.spec.name}-karpenter-info
+        namespace: argocd
+      data:
+        cluster_name: ${schema.spec.name}
+        accountId: ${schema.spec.accountId}
+        controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
+        node_role_name: ${schema.spec.name}-cluster-node-role
+        instance_profile_name: ${schema.spec.name}-karpenter-instance-profile

@@ -1,30 +1,31 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: dev-demo-workload-1-karpenter
+  name: dev-demo-workload-1-karpenter-infra
   namespace: argocd
 spec:
   generators:
-  - clusters:
-      selector:
-        matchLabels:
-          tenant: workload
+  - list:
+      elements:
+      - name: dev-demo-workload-1-karpenter-infra
   template:
     metadata:
-      name: 'dev-demo-workload-1-karpenter'
+      name: 'dev-infrastructure'
       namespace: argocd
       annotations:
-        argocd.argoproj.io/sync-wave: "5"  # After Accounts AS
+        argocd.argoproj.io/sync-wave: "5"
     spec:
       project: default
       source:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: accounts/dev/clusters/demo-workload-1/karpenter
+        path: accounts/dev/clusters/demo-workload-1/karpenter/infra
       destination:
-        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
-        namespace: default
+        server: https://kubernetes.default.svc
+        namespace: kro-system
       syncPolicy:
+        syncOptions:
+        - CreateNamespace=true
         automated:
           prune: true
           selfHeal: true

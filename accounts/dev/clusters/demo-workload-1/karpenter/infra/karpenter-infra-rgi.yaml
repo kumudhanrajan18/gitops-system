@@ -1,0 +1,9 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterCore
+metadata:
+  name: dev-demo-workload-1-karpenter-infra
+spec:
+  name: demo-workload-1
+  namespace: kro-system
+  region: eu-west-1
+  accountId: "208875563909"

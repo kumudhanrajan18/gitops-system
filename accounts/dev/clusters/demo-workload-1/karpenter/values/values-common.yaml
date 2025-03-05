@@ -1,0 +1,6 @@
+settings:
+  clusterName: ${cluster_name}
+  aws:
+    clusterName: "${cluster_name}"
+  featureGates:
+    drift: true
