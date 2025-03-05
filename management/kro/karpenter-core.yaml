@@ -9,6 +9,10 @@ spec:
     spec:
       name: string
       namespace: string
+      region: string
+      accountId: string
+      oidc_provider_arn: string
+      oidc_provider_url: string
   resources:
   - id: nodeRole
     template:
