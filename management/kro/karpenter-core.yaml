@@ -56,13 +56,13 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${clusterInfo.status.ackResourceMetadata.arn}"
+                  "Federated": "${schema.spec.oidc_provider_arn}"
                 },
                 "Action": "sts:AssumeRoleWithWebIdentity",
                 "Condition": {
                   "StringEquals": {
-                    "${clusterInfo.status.ackResourceMetadata.arn}:aud": "sts.amazonaws.com",
-                    "${clusterInfo.status.ackResourceMetadata.arn}:sub": "system:serviceaccount:karpenter:karpenter"
+                    "${schema.spec.oidc_provider_url}:aud": "sts.amazonaws.com",
+                    "${schema.spec.oidc_provider_url}:sub": "system:serviceaccount:karpenter:karpenter"
                   }
                 }
               }
