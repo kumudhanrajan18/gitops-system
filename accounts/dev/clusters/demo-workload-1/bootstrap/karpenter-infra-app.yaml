@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-workload-1
+  name: demo-workload-1-management
   namespace: argocd
 spec:
   project: default
@@ -9,8 +9,10 @@ spec:
     repoURL: https://github.com/kumudhanrajan18/gitops-system.git
     targetRevision: HEAD
     path: accounts/dev/clusters/demo-workload-1/applicationsets/cluster-workloads
+    directory:
+      include: "karpenter-infra.yaml"
   destination:
-    server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+    server: https://kubernetes.default.svc
     namespace: argocd
   syncPolicy:
     automated:
