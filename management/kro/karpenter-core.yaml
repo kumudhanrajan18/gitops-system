@@ -109,7 +109,7 @@ spec:
         name: ${schema.spec.name}-karpenter-instance-profile
         role: ${schema.spec.name}-cluster-node-role
       
-  - id: KarpenterInfoCM
+  - id: karpenterInfoCM
     dependsOn:
       - nodeRole
       - karpenterControllerRole
