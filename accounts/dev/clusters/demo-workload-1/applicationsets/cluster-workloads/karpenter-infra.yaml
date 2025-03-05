@@ -13,7 +13,7 @@ spec:
       namespace: argocd
   template:
     metadata:
-      name: 'dev-infrastructure'
+      name: 'dev-demo-workload-1-karpenter-infra'
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "5"

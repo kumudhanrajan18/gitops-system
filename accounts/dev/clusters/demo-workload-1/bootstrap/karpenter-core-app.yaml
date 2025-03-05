@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-workload-1
+  name: demo-workload-1-karpenter-core-app
   namespace: argocd
 spec:
   project: default
