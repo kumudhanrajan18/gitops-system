@@ -29,14 +29,14 @@ spec:
               clusterName: demo-workload-1
       - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: accounts/dev/clusters/{{name}}/karpenter/values
+        path: accounts/dev/clusters/demo-workload-1/karpenter/values
         ref: values
       - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
-        path: accounts/dev/clusters/{{name}}/karpenter/core
+        path: accounts/dev/clusters/demo-workload-1/karpenter/core
       destination:
         server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
-        namespace: argocd
+        namespace: default
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
