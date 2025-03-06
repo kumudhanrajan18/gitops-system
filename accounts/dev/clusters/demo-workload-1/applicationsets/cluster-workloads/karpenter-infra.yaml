@@ -23,10 +23,15 @@ spec:
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
         helm:
-          values: |
-            oidc:
-              providerArn: "{{oidc_provider_arn}}"
-              providerUrl: "{{oidc_provider_url}}"
+          values: |-
+            cluster:
+              name: "demo-workload-1"
+              namespace: "kro-system"
+              region: "eu-west-1"
+              accountId: "208875563909"
+              oidc:
+                providerArn: "{{oidc_provider_arn}}"
+                providerUrl: "{{oidc_provider_url}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
