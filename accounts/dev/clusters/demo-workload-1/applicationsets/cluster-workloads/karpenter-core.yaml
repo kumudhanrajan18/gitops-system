@@ -25,7 +25,7 @@ spec:
           - $values/values.yaml
           - $values/values-common.yaml
           registrySecrets:
-          - name: ecr-credentials
+          - name: ecr-karpenter-credentials
           values: |
             global:
               clusterName: demo-workload-1
