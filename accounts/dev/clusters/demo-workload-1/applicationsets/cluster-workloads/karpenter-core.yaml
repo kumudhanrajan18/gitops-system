@@ -8,7 +8,7 @@ spec:
   - clusters:
       selector:
         matchLabels:
-          tenant: dev-demo-workload-1
+          tenant: workload
   template:
     metadata:
       name: dev-demo-workload-1-karpenter-core
