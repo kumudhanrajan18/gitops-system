@@ -17,8 +17,8 @@ spec:
     spec:
       project: default
       sources:
-      - repoURL: oci://public.ecr.aws/karpenter/karpenter
-        targetRevision: 1.3.1
+      - repoURL: https://charts.karpenter.sh
+        targetRevision: v1.3.1
         chart: karpenter
         helm:
           valueFiles:
@@ -36,7 +36,7 @@ spec:
         path: accounts/dev/clusters/demo-workload-1/karpenter/core
       destination:
         server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
-        namespace: default
+        namespace: karpenter
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
