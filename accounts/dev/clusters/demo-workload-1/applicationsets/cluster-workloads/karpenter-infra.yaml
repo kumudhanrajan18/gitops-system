@@ -7,8 +7,7 @@ spec:
   generators:
     - list:
         elements:
-          - oidc_provider_arn: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_arn }}'
-            oidc_provider_url: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_url }}'
+          - name: dev-demo-workload-1-karpenter-infra
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter-infra'
@@ -21,13 +20,13 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
-        directory:
-          jsonnet:
-            extVars:
-              - name: oidc_provider_arn
-                value: '{{oidc_provider_arn}}'
-              - name: oidc_provider_url
-                value: '{{oidc_provider_url}}'
+        helm:
+          valueFiles:
+            - values.yaml
+          values: |
+            oidc:
+              providerArn: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_arn }}'
+              providerUrl: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_url }}'
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
