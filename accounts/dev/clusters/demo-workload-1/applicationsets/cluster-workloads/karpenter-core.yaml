@@ -35,8 +35,8 @@ spec:
         targetRevision: HEAD
         path: accounts/dev/clusters/{{name}}/karpenter/core
       destination:
-        server: '{{server}}'
-        namespace: karpenter
+        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+        namespace: argocd
       syncPolicy:
         syncOptions:
         - CreateNamespace=true
