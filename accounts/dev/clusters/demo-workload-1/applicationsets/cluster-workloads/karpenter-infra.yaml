@@ -18,17 +18,6 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
-        helm:
-          fileParameters:
-            - name: values-override.yaml
-              value: |
-                cluster:
-                  oidc:
-                    providerArn: {{ (index (lookup "v1" "ConfigMap" "argocd" "demo-workload-1-cluster-info").data "oidc_provider_arn") }}
-                    providerUrl: {{ (index (lookup "v1" "ConfigMap" "argocd" "demo-workload-1-cluster-info").data "oidc_provider_url") }}
-          valueFiles:
-            - values.yaml
-            - values-override.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
