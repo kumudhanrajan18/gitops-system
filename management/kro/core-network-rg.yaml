@@ -25,10 +25,6 @@ spec:
       publicSubnet2ID: ${publicSubnet2.status.subnetID}
       privateSubnet1ID: ${privateSubnet1.status.subnetID}
       privateSubnet2ID: ${privateSubnet2.status.subnetID}
-  watchResources:
-    - group: ec2.services.k8s.aws
-      version: v1alpha1
-      kind: VPC
   resources:
   - id: vpc
     template:
