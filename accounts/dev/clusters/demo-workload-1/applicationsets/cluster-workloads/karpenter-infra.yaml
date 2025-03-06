@@ -5,12 +5,9 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - name: dev-demo-workload-1-karpenter-infra
-  - configMap:
-      name: demo-workload-1-cluster-info
-      namespace: argocd
+    - configMap:
+        name: demo-workload-1-cluster-info
+        namespace: argocd
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter-infra'
@@ -23,6 +20,13 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
+        directory:
+          jsonnet:
+            extVars:
+              - name: oidc_provider_arn
+                value: '{{values.oidc_provider_arn}}'
+              - name: oidc_provider_url
+                value: '{{values.oidc_provider_url}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
