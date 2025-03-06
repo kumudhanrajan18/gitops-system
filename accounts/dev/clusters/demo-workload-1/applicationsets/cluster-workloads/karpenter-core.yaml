@@ -22,8 +22,8 @@ spec:
         chart: karpenter
         helm:
           valueFiles:
-          - ../values/values.yaml
-          - ../values/values-common.yaml
+          - ../../karpenter/values/values.yaml
+          - ../../karpenter/values-common.yaml
           registrySecrets:
           - name: ecr-karpenter-auth
           values: |
