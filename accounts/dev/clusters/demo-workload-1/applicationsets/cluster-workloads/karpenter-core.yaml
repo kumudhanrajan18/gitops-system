@@ -22,8 +22,8 @@ spec:
         chart: karpenter
         helm:
           valueFiles:
-          - $values/values.yaml
-          - $values/values-common.yaml
+          - $source2/values.yaml
+          - $source2/values-common.yaml
           registrySecrets:
           - name: ecr-karpenter-auth
           values: |
@@ -32,7 +32,7 @@ spec:
       - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/values
-        ref: values
+        ref: source2
       - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/core
