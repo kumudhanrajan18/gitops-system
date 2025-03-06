@@ -5,10 +5,9 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - plugin:
-        configMapRef:
-          name: demo-workload-1-cluster-info
-          namespace: argocd
+    - list:
+        elements:
+          - name: dev-demo-workload-1-karpenter-infra
   template:
     metadata:
       name: dev-demo-workload-1-karpenter-infra
@@ -22,15 +21,20 @@ spec:
         helm:
           parameters:
             - name: cluster.oidc.providerArn
-              valueFrom:
-                configMapKeyRef:
-                  name: demo-workload-1-cluster-info
-                  key: oidc_provider_arn
+              value: $OIDC_PROVIDER_ARN
             - name: cluster.oidc.providerUrl
-              valueFrom:
-                configMapKeyRef:
-                  name: demo-workload-1-cluster-info
-                  key: oidc_provider_url
+              value: $OIDC_PROVIDER_URL
+        env:
+          - name: OIDC_PROVIDER_ARN
+            valueFrom:
+              configMapKeyRef:
+                name: demo-workload-1-cluster-info
+                key: oidc_provider_arn
+          - name: OIDC_PROVIDER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: demo-workload-1-cluster-info
+                key: oidc_provider_url
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
