@@ -5,15 +5,10 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - configMap:
-        name: demo-workload-1-cluster-info
-        namespace: argocd
-        generate:
-          items:
-            - name: oidc_provider_arn
-              key: oidc_provider_arn
-            - name: oidc_provider_url
-              key: oidc_provider_url
+    - list:
+        elements:
+          - oidc_provider_arn: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_arn }}'
+            oidc_provider_url: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_url }}'
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter-infra'
