@@ -16,26 +16,15 @@ spec:
         argocd.argoproj.io/sync-wave: "6"
     spec:
       project: default
-      sources:
-      - repoURL: public.ecr.aws/karpenter
-        targetRevision: 1.3.1
-        chart: karpenter
-        helm:
-          valueFiles:
-          - $source2/values.yaml
-          - $source2/values-common.yaml
-          registrySecrets:
-          - name: ecr-karpenter-auth
-          values: |
-            global:
-              clusterName: demo-workload-1
-      - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-        targetRevision: HEAD
-        path: accounts/dev/clusters/demo-workload-1/karpenter/values
-        ref: source2
-      - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+      source:
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/core
+        helm:
+          valueFiles:
+          - values.yaml
+          registrySecrets:
+          - name: ecr-credentials
       destination:
         server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
         namespace: karpenter

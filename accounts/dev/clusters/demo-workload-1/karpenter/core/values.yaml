@@ -3,7 +3,10 @@ serviceAccount:
     eks.amazonaws.com/role-arn: arn:aws:iam::208875563909:role/dev-demo-workload-1-karpenter-controller
 
 settings:
+  clusterName: demo-workload-1
   aws:
     defaultInstanceProfile: dev-demo-workload-1-karpenter-instance-profile
     clusterName: dev-demo-workload-1
+  featureGates:
+    drift: true
     # clusterEndpoint: ${cluster_endpoint}
