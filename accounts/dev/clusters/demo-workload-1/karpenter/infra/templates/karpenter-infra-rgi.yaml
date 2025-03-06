@@ -1,0 +1,12 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterCore
+metadata:
+  name: dev-demo-workload-1-karpenter-infra
+  namespace: {{ .Values.cluster.namespace }}
+spec:
+  name: {{ .Values.cluster.name }}
+  namespace: {{ .Values.cluster.namespace }}
+  region: {{ .Values.cluster.region }}
+  accountId: {{ .Values.cluster.accountId | quote }}
+  oidc_provider_arn: {{ .Values.oidc.providerArn }}
+  oidc_provider_url: {{ .Values.oidc.providerUrl }}

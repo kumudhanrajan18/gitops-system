@@ -1,0 +1,5 @@
+apiVersion: v2
+name: karpenter-infra
+description: Karpenter Infrastructure Configuration
+version: 1.0.0
+type: application

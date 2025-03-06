@@ -1,0 +1,9 @@
+oidc:
+  providerArn: ""
+  providerUrl: ""
+
+cluster:
+  name: demo-workload-1
+  namespace: kro-system
+  region: eu-west-1
+  accountId: "208875563909"

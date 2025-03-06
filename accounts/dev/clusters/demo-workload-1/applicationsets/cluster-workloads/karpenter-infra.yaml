@@ -8,9 +8,11 @@ spec:
   - list:
       elements:
       - name: dev-demo-workload-1-karpenter-infra
+        oidc_provider_arn: '{{ valueFromConfigMap "demo-workload-1-cluster-info" "oidc_provider_arn" }}'
+        oidc_provider_url: '{{ valueFromConfigMap "demo-workload-1-cluster-info" "oidc_provider_url" }}'
   template:
     metadata:
-      name: 'dev-demo-workload-1-karpenter-infra'
+      name: '{{name}}'
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "5"
@@ -20,18 +22,11 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
-        plugin:
-          env:
-          - name: OIDC_PROVIDER_ARN
-            valueFrom:
-              configMapKeyRef:
-                name: demo-workload-1-cluster-info
-                key: oidc_provider_arn
-          - name: OIDC_PROVIDER_URL
-            valueFrom:
-              configMapKeyRef:
-                name: demo-workload-1-cluster-info
-                key: oidc_provider_url
+        helm:
+          values: |
+            oidc:
+              providerArn: "{{oidc_provider_arn}}"
+              providerUrl: "{{oidc_provider_url}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
