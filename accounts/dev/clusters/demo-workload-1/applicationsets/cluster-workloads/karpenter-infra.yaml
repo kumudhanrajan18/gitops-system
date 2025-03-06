@@ -8,6 +8,12 @@ spec:
     - configMap:
         name: demo-workload-1-cluster-info
         namespace: argocd
+        generate:
+          items:
+            - name: oidc_provider_arn
+              key: oidc_provider_arn
+            - name: oidc_provider_url
+              key: oidc_provider_url
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter-infra'
@@ -24,9 +30,9 @@ spec:
           jsonnet:
             extVars:
               - name: oidc_provider_arn
-                value: '{{values.oidc_provider_arn}}'
+                value: '{{oidc_provider_arn}}'
               - name: oidc_provider_url
-                value: '{{values.oidc_provider_url}}'
+                value: '{{oidc_provider_url}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
