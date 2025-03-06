@@ -30,8 +30,8 @@ spec:
           Name: ${schema.spec.name}-spot-interruption
 
   - id: spotInterruptionRule
-    dependsOn:
-      - interruptionQueue
+    # dependsOn:
+    #   - interruptionQueue
     template:
       apiVersion: eventbridge.services.k8s.aws/v1alpha1
       kind: Rule
@@ -50,8 +50,8 @@ spec:
             id: "SpotInterruptionQueue"
 
   - id: rebalanceRule
-    dependsOn:
-      - interruptionQueue
+    # dependsOn:
+    #   - interruptionQueue
     template:
       apiVersion: eventbridge.services.k8s.aws/v1alpha1
       kind: Rule

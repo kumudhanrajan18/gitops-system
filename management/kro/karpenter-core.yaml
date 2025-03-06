@@ -43,8 +43,8 @@ spec:
           }
 
   - id: karpenterControllerRole
-    dependsOn:
-      - nodeRole
+    # dependsOn:
+    #   - nodeRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
@@ -101,8 +101,8 @@ spec:
             }
 
   - id: karpenterInstanceProfile
-    dependsOn:
-      - karpenterControllerRole
+    # dependsOn:
+    #   - karpenterControllerRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: InstanceProfile
@@ -114,10 +114,10 @@ spec:
         role: ${schema.spec.name}-cluster-node-role
       
   - id: karpenterInfoCM
-    dependsOn:
-      - nodeRole
-      - karpenterControllerRole
-      - karpenterInstanceProfile
+    # dependsOn:
+    #   - nodeRole
+    #   - karpenterControllerRole
+    #   - karpenterInstanceProfile
     template:
       apiVersion: v1
       kind: ConfigMap

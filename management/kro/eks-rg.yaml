@@ -78,8 +78,8 @@ spec:
           }
 
   - id: ekscluster
-    dependsOn:
-      - clusterRole
+    # dependsOn:
+    #   - clusterRole
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: Cluster
@@ -106,9 +106,9 @@ spec:
                 name: ${schema.spec.subnets.controlplane.subnet2Name}
 
   - id: fargateProfile
-    dependsOn:
-      - ekscluster
-      - fargateExecutionRole
+    # dependsOn:
+    #   - ekscluster
+    #   - fargateExecutionRole
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: FargateProfile
@@ -146,8 +146,8 @@ spec:
           - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
 
   - id: argocdRole
-    dependsOn:
-      - oidcProvider
+    # dependsOn:
+    #   - oidcProvider
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
@@ -173,10 +173,10 @@ spec:
           }
 
   - id: argocdSecret
-    dependsOn:
-      - ekscluster
-      - argocdRole
-      - karpenterControllerRole
+    # dependsOn:
+    #   - ekscluster
+    #   - argocdRole
+    #   - karpenterControllerRole
     template:
       apiVersion: v1
       kind: Secret
@@ -207,9 +207,9 @@ spec:
           }
 
   - id: accessEntry
-    dependsOn:
-      - ekscluster
-      - argocdRole
+    # dependsOn:
+    #   - ekscluster
+    #   - argocdRole
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: AccessEntry
@@ -225,12 +225,12 @@ spec:
         principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
 
   - id: clusterInfo
-    dependsOn:
-      - ekscluster
-      - oidcProvider
-      - karpenterControllerRole
-      - nodeRole
-      - karpenterInstanceProfile
+    # dependsOn:
+    #   - ekscluster
+    #   - oidcProvider
+    #   - karpenterControllerRole
+    #   - nodeRole
+    #   - karpenterInstanceProfile
     template:
       apiVersion: secretsmanager.services.k8s.aws/v1alpha1
       kind: Secret
@@ -253,8 +253,8 @@ spec:
             value: "kro"
 
   - id: clusterInfoValue
-    dependsOn:
-      - clusterInfo
+    # dependsOn:
+    #   - clusterInfo
     template:
       apiVersion: v1
       kind: Secret
@@ -270,12 +270,12 @@ spec:
 
 
   - id: clusterInfoCM
-    dependsOn:
-      - ekscluster
-      - oidcProvider
-      - karpenterControllerRole
-      - nodeRole
-      - karpenterInstanceProfile
+    # dependsOn:
+    #   - ekscluster
+    #   - oidcProvider
+    #   - karpenterControllerRole
+    #   - nodeRole
+    #   - karpenterInstanceProfile
     template:
       apiVersion: v1
       kind: ConfigMap
