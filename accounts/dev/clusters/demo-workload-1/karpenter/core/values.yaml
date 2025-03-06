@@ -6,7 +6,7 @@ settings:
   clusterName: demo-workload-1
   aws:
     defaultInstanceProfile: dev-demo-workload-1-karpenter-instance-profile
-    clusterName: dev-demo-workload-1
+    clusterName: demo-workload-1
   featureGates:
     drift: true
     # clusterEndpoint: ${cluster_endpoint}

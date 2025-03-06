@@ -1,6 +1,0 @@
-settings:
-  clusterName: demo-workload-1
-  aws:
-    clusterName: demo-workload-1
-  featureGates:
-    drift: true
