@@ -1,0 +1,11 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterCore
+metadata:
+  name: dev-demo-workload-1-karpenter-infra
+spec:
+  name: dev-demo-workload-1
+  namespace: kro-system
+  region: eu-west-1
+  accountId: "208875563909"
+  oidc_provider_arn: arn:aws:iam::208875563909:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/9C194494D8F80D4A8806EB2E0F017065
+  oidc_provider_url: oidc.eks.eu-west-1.amazonaws.com/id/9C194494D8F80D4A8806EB2E0F017065
