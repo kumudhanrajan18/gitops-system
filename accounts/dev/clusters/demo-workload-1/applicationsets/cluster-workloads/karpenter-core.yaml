@@ -26,7 +26,7 @@ spec:
           - $values/values-common.yaml
           values: |
             global:
-              clusterName: {{name}}
+              clusterName: demo-workload-1
       - repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/{{name}}/karpenter/values
@@ -43,20 +43,3 @@ spec:
         automated:
           prune: true
           selfHeal: true
-      plugin:
-        env:
-        - name: AWS_ACCOUNT_ID
-          valueFrom:
-            configMapKeyRef:
-              name: karpenter-config
-              key: AWS_ACCOUNT_ID
-        - name: AWS_REGION
-          valueFrom:
-            configMapKeyRef:
-              name: karpenter-config
-              key: AWS_REGION
-        - name: INSTANCE_PROFILE
-          valueFrom:
-            configMapKeyRef:
-              name: karpenter-config
-              key: INSTANCE_PROFILE
