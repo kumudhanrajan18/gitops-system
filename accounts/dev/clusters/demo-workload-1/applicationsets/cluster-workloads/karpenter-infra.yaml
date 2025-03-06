@@ -4,6 +4,10 @@ metadata:
   name: dev-demo-workload-1-karpenter-infra
   namespace: argocd
 spec:
+  generators:
+  - list:
+      elements:
+      - name: dev-demo-workload-1-karpenter-infra
   template:
     metadata:
       name: 'dev-demo-workload-1-karpenter-infra'
