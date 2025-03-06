@@ -8,9 +8,11 @@ spec:
     - list:
         elements:
           - name: dev-demo-workload-1-karpenter-infra
+            oidc_provider_arn: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_arn }}'
+            oidc_provider_url: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_url }}'
   template:
     metadata:
-      name: 'dev-demo-workload-1-karpenter-infra'
+      name: '{{name}}'
       namespace: argocd
       annotations:
         argocd.argoproj.io/sync-wave: "5"
@@ -24,9 +26,10 @@ spec:
           valueFiles:
             - values.yaml
           values: |
-            oidc:
-              providerArn: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_arn }}'
-              providerUrl: '{{ from "demo-workload-1-cluster-info" .Data.oidc_provider_url }}'
+            cluster:
+              oidc:
+                providerArn: "{{oidc_provider_arn}}"
+                providerUrl: "{{oidc_provider_url}}"
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
