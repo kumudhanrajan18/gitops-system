@@ -23,12 +23,6 @@ spec:
         repoURL: https://github.com/kumudhanrajan18/gitops-system.git
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
-        helm:
-          parameters:
-          - name: oidc_provider_arn
-            value: '{{oidc_provider_arn}}'
-          - name: oidc_provider_url
-            value: '{{oidc_provider_url}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
