@@ -1,13 +1,10 @@
 serviceAccount:
-  name: karpenter
+  name: "karpenter"
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::208875563909:role/dev-demo-workload-1-karpenter-controller
+    eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-1-karpenter-controller"
 
 settings:
   aws:
-    defaultInstanceProfile: dev-demo-workload-1-karpenter-instance-profile
-    clusterName: demo-workload-1
-  clusterName: demo-workload-1
-  featureGates:
-    drift: true
-    # clusterEndpoint: ${cluster_endpoint}
+    defaultInstanceProfile: "dev-demo-workload-1-karpenter-instance-profile"
+    clusterName: "demo-workload-1"
+  clusterName: "demo-workload-1"
