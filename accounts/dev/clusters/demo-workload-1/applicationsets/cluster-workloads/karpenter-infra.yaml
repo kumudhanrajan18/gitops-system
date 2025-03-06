@@ -19,22 +19,16 @@ spec:
         targetRevision: HEAD
         path: accounts/dev/clusters/demo-workload-1/karpenter/infra
         helm:
-          parameters:
-            - name: cluster.oidc.providerArn
-              value: $OIDC_PROVIDER_ARN
-            - name: cluster.oidc.providerUrl
-              value: $OIDC_PROVIDER_URL
-        env:
-          - name: OIDC_PROVIDER_ARN
-            valueFrom:
-              configMapKeyRef:
-                name: demo-workload-1-cluster-info
-                key: oidc_provider_arn
-          - name: OIDC_PROVIDER_URL
-            valueFrom:
-              configMapKeyRef:
-                name: demo-workload-1-cluster-info
-                key: oidc_provider_url
+          fileParameters:
+            - name: values-override.yaml
+              value: |
+                cluster:
+                  oidc:
+                    providerArn: {{ (index (lookup "v1" "ConfigMap" "argocd" "demo-workload-1-cluster-info").data "oidc_provider_arn") }}
+                    providerUrl: {{ (index (lookup "v1" "ConfigMap" "argocd" "demo-workload-1-cluster-info").data "oidc_provider_url") }}
+          valueFiles:
+            - values.yaml
+            - values-override.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: kro-system
