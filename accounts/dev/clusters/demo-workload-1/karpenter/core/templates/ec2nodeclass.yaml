@@ -4,7 +4,10 @@ metadata:
   name: default
 spec:
   amiFamily: AL2
-  subnetSelectorTerms:
+  amiSelectorTerms:
+    - tags:
+        operating-system: amazon-linux-2
+  subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: {{ .Values.accountId }}
   securityGroupSelectorTerms:
