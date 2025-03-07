@@ -9,13 +9,13 @@ spec:
         operating-system: amazon-linux-2
   subnetSelectorTerms:  
     - tags:
-        karpenter.sh/discovery: {{ .Values.accountId }}
+        karpenter.sh/discovery: "{{ .Values.accountId }}"
   securityGroupSelectorTerms:
     - tags:
-        aws:eks:cluster-name: {{ .Values.karpenter.settings.clusterName }}
-  instanceProfile: {{ .Values.karpenter.settings.clusterName }}-karpenter-instance-profile
+        aws:eks:cluster-name: "{{ .Values.karpenter.settings.clusterName }}"
+  instanceProfile: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-profile"
   tags:
-    karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
+    karpenter.sh/discovery: "{{ .Values.karpenter.settings.clusterName }}"
   metadataOptions:
     httpEndpoint: enabled
     httpProtocolIPv6: disabled
