@@ -7,7 +7,15 @@ karpenter:
   settings:
     clusterName: "demo-workload-1"
 
+  dnsPolicy: "Default"
   controller:
+    env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: "regional"
+      - name: AWS_DEFAULT_REGION
+        value: "eu-west-1"
+      - name: CLUSTER_ENDPOINT
+        value: "https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com"
     healthProbe:
       port: 8081
     readinessProbe:
@@ -28,3 +36,10 @@ karpenter:
     limits:
       cpu: "1"
       memory: "1Gi"
+
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+      runAsNonRoot: true
+      runAsUser: 1000
+
