@@ -5,8 +5,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - tags:
-        operating-system: amazon-linux-2
+    - alias: al2023-x86_64-standard
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
