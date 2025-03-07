@@ -3,7 +3,7 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
-  amiFamily: AL2
+  amiFamily: AL2023
   amiSelectorTerms:
     - alias: al2023@v20240703
   subnetSelectorTerms:  
