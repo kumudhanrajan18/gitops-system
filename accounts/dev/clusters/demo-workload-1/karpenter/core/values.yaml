@@ -6,3 +6,25 @@ karpenter:
 
   settings:
     clusterName: "demo-workload-1"
+
+  controller:
+    healthProbe:
+      port: 8081
+    readinessProbe:
+      initialDelaySeconds: 30
+      timeoutSeconds: 10
+      periodSeconds: 15
+      failureThreshold: 3
+    livenessProbe:
+      initialDelaySeconds: 30
+      timeoutSeconds: 10
+      periodSeconds: 15
+      failureThreshold: 3
+
+  resources:
+    requests:
+      cpu: "1"
+      memory: "1Gi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
