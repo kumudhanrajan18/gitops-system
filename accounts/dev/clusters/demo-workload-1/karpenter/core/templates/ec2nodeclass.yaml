@@ -9,7 +9,7 @@ spec:
         operating-system: amazon-linux-2
   subnetSelectorTerms:  
     - tags:
-        karpenter.sh/discovery: "{{ .Values.accountId }}"
+        karpenter.sh/discovery: "{{ .Values.accountId | toString }}"
   securityGroupSelectorTerms:
     - tags:
         aws:eks:cluster-name: "{{ .Values.karpenter.settings.clusterName }}"
