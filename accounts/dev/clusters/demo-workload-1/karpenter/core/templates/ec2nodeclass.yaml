@@ -6,8 +6,15 @@ spec:
   amiFamily: AL2
   subnetSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "${cluster_name}"
+        karpenter.sh/discovery: "{{ .Values.karpenter.accountId | quote }}"
   securityGroupSelectorTerms:
     - tags:
-        karpenter.sh/discovery: "${cluster_name}"
-  role: "${cluster_name}-instance-profile-role"
+        aws:eks:cluster-name: "{{ .Values.karpenter.settings.clusterName | quote }}"
+  role: "{{ .Values.karpenter.settings.clusterName | quote }}-instance-profile-role"
+  tags:
+    karpenter.sh/discovery: "{{ .Values.karpenter.settings.clusterName | quote }}""
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2
+    httpTokens: required

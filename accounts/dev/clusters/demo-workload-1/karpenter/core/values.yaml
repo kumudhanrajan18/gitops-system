@@ -1,4 +1,5 @@
 karpenter:
+  accountId: "208875563909"
   serviceAccount:
     name: "karpenter"
     annotations:

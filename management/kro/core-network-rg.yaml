@@ -202,6 +202,8 @@ spec:
             value: ${schema.spec.name}-private-subnet1
           - key: kubernetes.io/role/internal-elb
             value: '1'
+          - key: "karpenter.sh/discovery"
+            value: ${schema.spec.accountId}
   - id: privateSubnet2
     template:
       apiVersion: ec2.services.k8s.aws/v1alpha1
@@ -220,3 +222,5 @@ spec:
             value: ${schema.spec.name}-private-subnet2
           - key: kubernetes.io/role/internal-elb
             value: '1'
+          - key: "karpenter.sh/discovery"
+            value: ${schema.spec.accountId}
