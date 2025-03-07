@@ -10,7 +10,7 @@ spec:
   securityGroupSelectorTerms:
     - tags:
         aws:eks:cluster-name: {{ .Values.karpenter.settings.clusterName }}
-  role: {{ .Values.karpenter.settings.clusterName }}-karpenter-instance-profile
+  instanceProfile: {{ .Values.karpenter.settings.clusterName }}-karpenter-instance-profile
   tags:
     karpenter.sh/discovery: {{ .Values.karpenter.settings.clusterName }}
   metadataOptions:

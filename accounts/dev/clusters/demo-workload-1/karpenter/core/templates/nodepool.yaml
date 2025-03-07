@@ -7,7 +7,7 @@ spec:
     spec:
       # References the Cloud Provider's NodeClass resource, see your cloud provider specific documentation
       nodeClassRef:
-        apiVersion: karpenter.k8s.aws/v1
+        apiVersion: karpenter.k8s.aws
         kind: EC2NodeClass
         name: default
 
