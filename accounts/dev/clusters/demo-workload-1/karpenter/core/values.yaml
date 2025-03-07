@@ -1,4 +1,4 @@
-accountId: "208875563909"
+accountId: 208875563909
 karpenter:
   serviceAccount:
     name: "karpenter"
