@@ -3,7 +3,7 @@ kind: KarpenterCore
 metadata:
   name: dev-demo-workload-1-karpenter-infra
 spec:
-  name: dev-demo-workload-1
+  name: demo-workload-1
   namespace: kro-system
   region: eu-west-1
   accountId: "208875563909"
