@@ -5,7 +5,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - alias: al2
+    - alias: al2@latest
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
