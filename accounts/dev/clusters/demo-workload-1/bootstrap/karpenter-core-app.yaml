@@ -12,7 +12,7 @@ spec:
     directory:
       include: "karpenter-core.yaml"
   destination:
-    server: https://kubernetes.default.svc
+    server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
     namespace: argocd
   syncPolicy:
     automated:

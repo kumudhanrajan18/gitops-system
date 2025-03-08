@@ -5,10 +5,10 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - clusters:
-      selector:
-        matchLabels:
-          tenant: demo-workload-1
+  - list:
+      elements:
+      - name: demo-workload-1
+        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
   template:
     metadata:
       name: dev-demo-workload-1-karpenter-core
@@ -26,7 +26,7 @@ spec:
           # registrySecrets:
           # - name: ecr-credentials
       destination:
-        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+        server: '{{server}}'
         namespace: karpenter
       syncPolicy:
         syncOptions:
