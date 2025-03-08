@@ -26,7 +26,7 @@ spec:
           # registrySecrets:
           # - name: ecr-credentials
       destination:
-        server: '{{server}}'
+        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
         namespace: karpenter
       syncPolicy:
         syncOptions:
