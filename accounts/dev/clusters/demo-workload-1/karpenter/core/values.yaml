@@ -3,7 +3,7 @@ karpenter:
   serviceAccount:
     name: "karpenter"
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-1-karpenter-controller"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/demo-workload-1-karpenter-controller"
 
   settings:
     clusterName: "demo-workload-1"
