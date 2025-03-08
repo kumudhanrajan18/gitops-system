@@ -5,9 +5,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - id: ami-0a3c3a20c09d6f377
-    - tags:
-        OS: Amazon Linux 2
+    - id: ami-0b5a7998795f497af
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
