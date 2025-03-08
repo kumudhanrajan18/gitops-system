@@ -5,10 +5,10 @@ metadata:
   namespace: argocd
 spec:
   generators:
-  - list:
-      elements:
-      - name: demo-workload-1
-        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+  - clusters:
+      selector:
+        matchLabels:
+          tenant: demo-workload-1
   template:
     metadata:
       name: dev-demo-workload-1-karpenter-core
