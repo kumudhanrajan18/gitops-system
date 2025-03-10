@@ -3,9 +3,8 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
-  amiFamily: AL2023
-  # amiSelectorTerms:
-  #   - id: ami-0b5a7998795f497af
+  amiSelectorTerms:
+    - alias: "al2023@1.0.0"
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
