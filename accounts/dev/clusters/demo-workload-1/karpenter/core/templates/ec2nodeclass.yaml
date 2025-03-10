@@ -3,6 +3,7 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
+  amiFamily: AL2
   amiSelectorTerms:
     - id: "ami-0b5a7998795f497af"
   subnetSelectorTerms:  
