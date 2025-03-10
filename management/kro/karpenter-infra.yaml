@@ -1,7 +1,7 @@
 apiVersion: kro.run/v1alpha1
 kind: ResourceGraphDefinition
 metadata:
-  name: KarpenterInfra.kro.run
+  name: karpenterinfra
 spec:
   schema:
     apiVersion: v1alpha1
