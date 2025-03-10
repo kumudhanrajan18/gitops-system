@@ -131,19 +131,19 @@ spec:
           - from:
               name: ${schema.spec.subnets.controlplane.subnet2Name}
 
-  - id: oidcProvider
-    template:
-      apiVersion: iam.services.k8s.aws/v1alpha1
-      kind: OpenIDConnectProvider
-      metadata:
-        namespace: ${schema.spec.namespace}
-        name: ${schema.spec.name}-oidc
-      spec:
-        url: ${ekscluster.status.identity.oidc.issuer}
-        clientIDs:
-          - sts.amazonaws.com
-        thumbprints:
-          - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
+  # - id: oidcProvider
+  #   template:
+  #     apiVersion: iam.services.k8s.aws/v1alpha1
+  #     kind: OpenIDConnectProvider
+  #     metadata:
+  #       namespace: ${schema.spec.namespace}
+  #       name: ${schema.spec.name}-oidc
+  #     spec:
+  #       url: ${ekscluster.status.identity.oidc.issuer}
+  #       clientIDs:
+  #         - sts.amazonaws.com
+  #       thumbprints:
+  #         - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
 
   - id: argocdRole
     # dependsOn:
