@@ -224,70 +224,70 @@ spec:
   #         policyARN: "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
   #       principalARN: "${argocdRole.status.ackResourceMetadata.arn}"
 
-  - id: clusterInfo
-    # dependsOn:
-    #   - ekscluster
-    #   - oidcProvider
-    #   - karpenterControllerRole
-    #   - nodeRole
-    #   - karpenterInstanceProfile
-    template:
-      apiVersion: secretsmanager.services.k8s.aws/v1alpha1
-      kind: Secret
-      metadata:
-        name: ${schema.spec.name}-cluster-info
-        namespace: ${schema.spec.namespace}
-      spec:
-        name: ${schema.spec.name}-cluster-info
-        description: "Cluster information for ${schema.spec.name}"
-        secretString:
-          key: "cluster-info"
-          name: ${schema.spec.name}-cluster-info-k8s  # Match this with Kubernetes secret name
-          namespace: ${schema.spec.namespace}
-        tags:
-          - key: "Name"
-            value: ${schema.spec.name}-cluster-info
-          - key: "ClusterName"
-            value: ${schema.spec.name}
-          - key: "ManagedBy"
-            value: "kro"
+  # - id: clusterInfo
+  #   # dependsOn:
+  #   #   - ekscluster
+  #   #   - oidcProvider
+  #   #   - karpenterControllerRole
+  #   #   - nodeRole
+  #   #   - karpenterInstanceProfile
+  #   template:
+  #     apiVersion: secretsmanager.services.k8s.aws/v1alpha1
+  #     kind: Secret
+  #     metadata:
+  #       name: ${schema.spec.name}-cluster-info
+  #       namespace: ${schema.spec.namespace}
+  #     spec:
+  #       name: ${schema.spec.name}-cluster-info
+  #       description: "Cluster information for ${schema.spec.name}"
+  #       secretString:
+  #         key: "cluster-info"
+  #         name: ${schema.spec.name}-cluster-info-k8s  # Match this with Kubernetes secret name
+  #         namespace: ${schema.spec.namespace}
+  #       tags:
+  #         - key: "Name"
+  #           value: ${schema.spec.name}-cluster-info
+  #         - key: "ClusterName"
+  #           value: ${schema.spec.name}
+  #         - key: "ManagedBy"
+  #           value: "kro"
 
-  - id: clusterInfoValue
-    # dependsOn:
-    #   - clusterInfo
-    template:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: ${schema.spec.name}-cluster-info-k8s  # This name must match secretString.name
-        namespace: ${schema.spec.namespace}
-      stringData:
-        cluster-info: |  # This key must match secretString.key
-          {
-            "oidc_provider_arn": "${oidcProvider.status.ackResourceMetadata.arn}",
-            "oidc_provider_url": "${oidcProvider.spec.url.substring(8)}"
-          }
+  # - id: clusterInfoValue
+  #   # dependsOn:
+  #   #   - clusterInfo
+  #   template:
+  #     apiVersion: v1
+  #     kind: Secret
+  #     metadata:
+  #       name: ${schema.spec.name}-cluster-info-k8s  # This name must match secretString.name
+  #       namespace: ${schema.spec.namespace}
+  #     stringData:
+  #       cluster-info: |  # This key must match secretString.key
+  #         {
+  #           "oidc_provider_arn": "${oidcProvider.status.ackResourceMetadata.arn}",
+  #           "oidc_provider_url": "${oidcProvider.spec.url.substring(8)}"
+  #         }
 
 
-  - id: clusterInfoCM
-    # dependsOn:
-    #   - ekscluster
-    #   - oidcProvider
-    #   - karpenterControllerRole
-    #   - nodeRole
-    #   - karpenterInstanceProfile
-    template:
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: ${schema.spec.name}-cluster-info
-        namespace: argocd
-      data:
-        cluster_name: ${schema.spec.name}
-        cluster_endpoint: ${ekscluster.status.endpoint}
-        oidc_provider_arn: ${oidcProvider.status.ackResourceMetadata.arn}
-        oidc_provider_url: ${oidcProvider.spec.url.substring(8)}
-        accountId: ${schema.spec.accountId}
-        # controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
-        # node_role_name: ${schema.spec.name}-cluster-node-role
-        # instance_profile_name: ${schema.spec.name}-karpenter-instance-profile
+  # - id: clusterInfoCM
+  #   # dependsOn:
+  #   #   - ekscluster
+  #   #   - oidcProvider
+  #   #   - karpenterControllerRole
+  #   #   - nodeRole
+  #   #   - karpenterInstanceProfile
+  #   template:
+  #     apiVersion: v1
+  #     kind: ConfigMap
+  #     metadata:
+  #       name: ${schema.spec.name}-cluster-info
+  #       namespace: argocd
+  #     data:
+  #       cluster_name: ${schema.spec.name}
+  #       cluster_endpoint: ${ekscluster.status.endpoint}
+  #       oidc_provider_arn: ${oidcProvider.status.ackResourceMetadata.arn}
+  #       oidc_provider_url: ${oidcProvider.spec.url.substring(8)}
+  #       accountId: ${schema.spec.accountId}
+  #       # controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
+  #       # node_role_name: ${schema.spec.name}-cluster-node-role
+  #       # instance_profile_name: ${schema.spec.name}-karpenter-instance-profile
