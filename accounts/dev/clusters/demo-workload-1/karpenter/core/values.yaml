@@ -7,7 +7,7 @@ karpenter:
 
   settings:
     clusterName: "demo-workload-1"
-    interruptionQueue: "dev-karpenter-int-handler"
+    interruptionQueue: "dev-karpenter-int-handler-spot-interruption"
 
   dnsPolicy: "Default"
   controller:
