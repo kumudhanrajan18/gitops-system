@@ -5,8 +5,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - id: ami-0824af9ee8de902c7
-    - name: amazon-eks-node-1.31-v20250228
+    - id: ami-095f9e572b21928f6
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'

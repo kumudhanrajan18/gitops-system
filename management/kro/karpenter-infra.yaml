@@ -5,7 +5,7 @@ metadata:
 spec:
   schema:
     apiVersion: v1alpha1
-    kind: KarpenterCore
+    kind: KarpenterInfra
     spec:
       name: string
       namespace: string
@@ -181,3 +181,53 @@ spec:
         controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
         node_role_name: ${schema.spec.name}-cluster-node-role
         instance_profile_name: ${schema.spec.name}-karpenter-instance-profile
+
+  - id: interruptionQueue
+    template:
+      apiVersion: sqs.services.k8s.aws/v1alpha1
+      kind: Queue
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-spot-interruption
+      spec:
+        queueName: ${schema.spec.name}-spot-interruption
+        messageRetentionPeriod: "300"
+        visibilityTimeout: "30"
+        tags:
+          Name: ${schema.spec.name}-spot-interruption
+
+  - id: spotInterruptionRule
+    template:
+      apiVersion: eventbridge.services.k8s.aws/v1alpha1
+      kind: Rule
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-spot-interruption
+      spec:
+        name: ${schema.spec.name}-spot-interruption
+        eventPattern: |
+          {
+            "source": ["aws.ec2"],
+            "detail-type": ["EC2 Spot Instance Interruption Warning"]
+          }
+        targets:
+          - arn: ${interruptionQueue.status.ackResourceMetadata.arn}
+            id: "SpotInterruptionQueue"
+
+  - id: rebalanceRule
+    template:
+      apiVersion: eventbridge.services.k8s.aws/v1alpha1
+      kind: Rule
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-rebalance
+      spec:
+        name: ${schema.spec.name}-rebalance
+        eventPattern: |
+          {
+            "source": ["aws.ec2"],
+            "detail-type": ["EC2 Instance Rebalance Recommendation"]
+          }
+        targets:
+          - arn: ${interruptionQueue.status.ackResourceMetadata.arn}
+            id: "RebalanceQueue"
