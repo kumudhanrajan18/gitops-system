@@ -5,8 +5,7 @@ metadata:
 spec:
   amiFamily: AL2
   amiSelectorTerms:
-    - id: "ami-0b5a7998795f497af"
-      owners: ["amazon"] 
+    - alias: al2023@v20240703
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
