@@ -3,8 +3,9 @@ kind: EC2NodeClass
 metadata:
   name: default
 spec:
+  amiFamily: AL2
   amiSelectorTerms:
-    - alias: al2023@v20240703
+    - alias: "al2-x86_64"
   subnetSelectorTerms:  
     - tags:
         karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
