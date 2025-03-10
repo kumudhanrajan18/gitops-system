@@ -8,7 +8,7 @@ spec:
   - clusters:
       selector:
         matchLabels:
-          tenant: demo-workload-1
+          tenant: workload
   template:
     metadata:
       name: dev-demo-workload-1-karpenter-core
@@ -23,10 +23,8 @@ spec:
         helm:
           valueFiles:
           - values.yaml
-          # registrySecrets:
-          # - name: ecr-credentials
       destination:
-        server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+        server: '{{server}}'
         namespace: karpenter
       syncPolicy:
         syncOptions:
