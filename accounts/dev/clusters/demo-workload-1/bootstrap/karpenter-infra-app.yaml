@@ -1,20 +1,20 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: demo-workload-1-karpenter-infra-app
-#   namespace: argocd
-# spec:
-#   project: default
-#   source:
-#     repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-#     targetRevision: HEAD
-#     path: accounts/dev/clusters/demo-workload-1/applicationsets/cluster-workloads
-#     directory:
-#       include: "karpenter-infra.yaml"
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: argocd
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-workload-1-karpenter-infra-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+    targetRevision: HEAD
+    path: accounts/dev/clusters/demo-workload-1/applicationsets/cluster-workloads
+    directory:
+      include: "karpenter-infra.yaml"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

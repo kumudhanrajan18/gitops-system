@@ -1,34 +1,26 @@
+# This is applied manually to the cluster
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: dev-demo-workload-1-karpenter-core
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "6"
 spec:
-  generators:
-  - clusters:
-      selector:
-        matchLabels:
-          tenant: demo-workload-1
-  template:
-    metadata:
-      name: dev-demo-workload-1-karpenter-core
-      annotations:
-        argocd.argoproj.io/sync-wave: "6"
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-        targetRevision: HEAD
-        path: accounts/dev/clusters/demo-workload-1/karpenter/core
-        helm:
-          valueFiles:
-          - values.yaml
-      destination:
-        server: '{{server}}'
-        namespace: karpenter
-      syncPolicy:
-        syncOptions:
-        - CreateNamespace=true
-        automated:
-          prune: true
-          selfHeal: true
+  project: default
+  source:
+    repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+    targetRevision: HEAD
+    path: accounts/dev/clusters/demo-workload-1/karpenter/core
+    helm:
+      valueFiles:
+      - values.yaml
+  destination:
+    server: https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com
+    namespace: karpenter
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
