@@ -59,15 +59,9 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Federated": "${schema.spec.oidc_provider_arn}"
+                  "Service": "pods.eks.amazonaws.com"
                 },
-                "Action": "sts:AssumeRoleWithWebIdentity",
-                "Condition": {
-                  "StringEquals": {
-                    "${schema.spec.oidc_provider_url}:aud": "sts.amazonaws.com",
-                    "${schema.spec.oidc_provider_url}:sub": "system:serviceaccount:karpenter:karpenter"
-                  }
-                }
+                "Action": "sts:AssumeRole"
               }
             ]
           }
@@ -156,6 +150,21 @@ spec:
                 }
               ]
             }
+
+  - id: karpenterPodIdentityAssociation
+    template:
+      apiVersion: eks.services.k8s.aws/v1alpha1
+      kind: PodIdentityAssociation
+      metadata:
+        name: ${schema.spec.name}-karpenter-pod-identity
+        namespace: ${schema.spec.namespace}
+      spec:
+        clusterRef:
+          from:
+            name: ${schema.spec.name}
+        namespace: ${schema.spec.namespace}
+        serviceAccount: karpenter
+        roleARN: ${karpenterControllerRole.status.ackResourceMetadata.arn}
 
 
   - id: karpenterInstanceProfile
