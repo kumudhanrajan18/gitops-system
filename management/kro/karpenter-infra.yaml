@@ -52,16 +52,19 @@ spec:
         name: ${schema.spec.name}-karpenter-controller
         assumeRolePolicyDocument: |
           {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Effect": "Allow",
-                "Principal": {
-                  "Service": "pods.eks.amazonaws.com"
-                },
-                "Action": "sts:AssumeRole"
-              }
-            ]
+              "Version": "2012-10-17",
+              "Statement": [
+                  {
+                      "Effect": "Allow",
+                      "Principal": {
+                          "Service": "pods.eks.amazonaws.com"
+                      },
+                      "Action": [
+                          "sts:TagSession",
+                          "sts:AssumeRole"
+                      ]
+                  }
+              ]
           }
         inlinePolicies:
           karpenter-policy: |
