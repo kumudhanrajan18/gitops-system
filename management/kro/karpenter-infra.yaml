@@ -163,7 +163,7 @@ spec:
         clusterRef:
           from:
             name: ${schema.spec.name}
-        namespace: ${schema.spec.namespace}
+        namespace: karpenter
         serviceAccount: karpenter
         roleARN: ${karpenterControllerRole.status.ackResourceMetadata.arn}
 
