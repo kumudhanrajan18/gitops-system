@@ -167,6 +167,22 @@ spec:
         serviceAccount: karpenter
         roleARN: ${karpenterControllerRole.status.ackResourceMetadata.arn}
 
+  - id: accessEntry
+    template:
+      apiVersion: eks.services.k8s.aws/v1alpha1
+      kind: AccessEntry
+      metadata:
+        namespace: ${schema.spec.namespace}
+        name: ${schema.spec.name}-karpenter-accessentry
+      spec:
+        clusterRef:
+          from:
+            name: ${schema.spec.name}
+        accessPolicies:
+        - accessScope:
+            type: "EC2_LINUX"
+        principalARN: "${nodeRole.status.ackResourceMetadata.arn}"
+
 
   - id: karpenterInstanceProfile
     template:
