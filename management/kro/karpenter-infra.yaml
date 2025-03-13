@@ -180,8 +180,8 @@ spec:
             name: ${schema.spec.name}
         accessPolicies:
         - accessScope:
-            type: "EC2_LINUX"
-        principalARN: "${nodeRole.status.ackResourceMetadata.arn}"
+            type: EC2_LINUX
+        principalARN: ${nodeRole.status.ackResourceMetadata.arn}
 
 
   - id: karpenterInstanceProfile
