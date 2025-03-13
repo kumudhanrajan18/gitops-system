@@ -3,9 +3,7 @@ kind: KarpenterInfra
 metadata:
   name: dev-demo-workload-2-karpenter-infra
 spec:
-  name: demo-workload-1
+  name: demo-workload-2
   namespace: kro-system
   region: eu-west-1
   accountId: "208875563909"
-  oidc_provider_arn: arn:aws:iam::208875563909:oidc-provider/oidc.eks.eu-west-1.amazonaws.com/id/71CBB5D3FD001591860045738821E970
-  oidc_provider_url: oidc.eks.eu-west-1.amazonaws.com/id/71CBB5D3FD001591860045738821E970

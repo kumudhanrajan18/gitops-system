@@ -11,8 +11,6 @@ spec:
       namespace: string
       region: string
       accountId: string
-      oidc_provider_arn: string
-      oidc_provider_url: string
   resources:
 # Karpenter IAM Roles and Policies
   - id: nodeRole
