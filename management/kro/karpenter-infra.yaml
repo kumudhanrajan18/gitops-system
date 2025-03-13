@@ -178,9 +178,7 @@ spec:
         clusterRef:
           from:
             name: ${schema.spec.name}
-        accessPolicies:
-        - accessScope:
-            type: EC2_LINUX
+        type: "EC2_LINUX"
         principalARN: ${nodeRole.status.ackResourceMetadata.arn}
 
 
