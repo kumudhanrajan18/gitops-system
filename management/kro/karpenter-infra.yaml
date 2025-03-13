@@ -14,6 +14,7 @@ spec:
       oidc_provider_arn: string
       oidc_provider_url: string
   resources:
+# Karpenter IAM Roles and Policies
   - id: nodeRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
@@ -181,6 +182,8 @@ spec:
         controller_role_arn: ${karpenterControllerRole.status.ackResourceMetadata.arn}
         node_role_name: ${schema.spec.name}-cluster-node-role
         instance_profile_name: ${schema.spec.name}-karpenter-instance-profile
+
+# Karpenter Interruption Handler Resources 
 
   - id: interruptionQueue
     template:
