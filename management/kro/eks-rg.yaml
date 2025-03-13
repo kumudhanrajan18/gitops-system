@@ -145,6 +145,21 @@ spec:
         thumbprints:
           - '9e99a48a9960b14926bb7f3b02e22da2b0ab7280'
 
+  - id: podIdentityAddOn
+    template:
+      apiVersion: eks.services.k8s.aws/v1alpha1
+      kind: Addon
+      metadata:
+        name: eks-pod-identity-agent
+        namespace: ${schema.spec.namespace}
+      spec:
+        clusterRef:
+          from:
+            name: ${schema.spec.name}
+        name: eks-pod-identity-agent
+        addonVersion: v1.3.4-eksbuild.1
+        resolveConflicts: OVERWRITE
+
   - id: argocdRole
     # dependsOn:
     #   - oidcProvider
