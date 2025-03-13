@@ -6,4 +6,4 @@ type: application
 dependencies:
   - name: kro
     version: "0.2.2"
-    repository: oci://public.ecr.aws/kro
+    repository: oci://ghcr.io/kro-run/kro/kro
