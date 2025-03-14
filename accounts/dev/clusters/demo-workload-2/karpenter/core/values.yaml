@@ -11,6 +11,11 @@ karpenter:
     interruptionQueue: "dev-demo-workload-2-spot-interruption"
 
   dnsPolicy: "Default"
+  tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "karpenter"
+    effect: "NoSchedule"
   controller:
     env:
       - name: AWS_STS_REGIONAL_ENDPOINTS
