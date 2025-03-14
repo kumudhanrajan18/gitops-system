@@ -8,7 +8,7 @@ karpenter:
   settings:
     clusterName: "dev-demo-workload-2"
     cluster_endpoint: "https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com"
-    interruptionQueue: "dev-demo-workload-2-spot-interruption"
+    interruptionQueue: "dev-demo-workload-3-spot-interruption"
 
   dnsPolicy: "Default"
   tolerations:
