@@ -1,0 +1,7 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterInfra
+metadata:
+  name: <kro-resourcegroup-instance-name>
+spec:
+  name: <cluster-name>
+  accountId: <account-id>

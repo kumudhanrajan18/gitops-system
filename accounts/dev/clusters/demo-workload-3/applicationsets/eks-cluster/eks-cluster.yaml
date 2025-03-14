@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dev-demo-workload-3-eks-cluster
+  namespace: argocd
+spec:
+  generators:
+  - list:
+      elements:
+      - name: dev-demo-workload-3-eks-cluster
+  template:
+    metadata:
+      name: 'dev-demo-workload-3-eks-cluster'
+      namespace: argocd
+      annotations:
+        argocd.argoproj.io/sync-wave: "4"  # After Accounts AS
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+        targetRevision: HEAD
+        path: accounts/dev/clusters/demo-workload-3/eks-cluster
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: kro-system
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
