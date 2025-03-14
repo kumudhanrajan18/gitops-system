@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev-demo-workload-4-karpenter-bootstrap
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+    targetRevision: HEAD
+    path: accounts/dev/clusters/demo-workload-4/applicationsets/cluster-workloads
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

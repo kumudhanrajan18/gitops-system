@@ -1,0 +1,22 @@
+apiVersion: karpenter.k8s.aws/v1
+kind: EC2NodeClass
+metadata:
+  name: default
+spec:
+  amiFamily: AL2
+  amiSelectorTerms:
+    - id: ami-095f9e572b21928f6
+  subnetSelectorTerms:  
+    - tags:
+        karpenter.sh/discovery: '{{ .Values.accountId | toString }}'
+  securityGroupSelectorTerms:
+    - tags:
+        aws:eks:cluster-name: "{{ .Values.karpenter.settings.clusterName }}"
+  instanceProfile: "{{ .Values.karpenter.settings.clusterName }}-karpenter-instance-profile"
+  tags:
+    karpenter.sh/discovery: "{{ .Values.karpenter.settings.clusterName }}"
+  metadataOptions:
+    httpEndpoint: enabled
+    httpProtocolIPv6: disabled
+    httpPutResponseHopLimit: 2
+    httpTokens: required

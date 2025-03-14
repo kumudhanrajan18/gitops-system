@@ -1,0 +1,47 @@
+accountId: "208875563909"
+karpenter:
+  serviceAccount:
+    name: "karpenter"
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-4-karpenter-controller"
+
+  settings:
+    clusterName: "dev-demo-workload-3"
+    cluster_endpoint: "https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com"
+    interruptionQueue: "dev-demo-workload-4-spot-interruption"
+
+  dnsPolicy: "Default"
+  tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "karpenter"
+    effect: "NoSchedule"
+  controller:
+    env:
+      - name: AWS_STS_REGIONAL_ENDPOINTS
+        value: "regional"
+      - name: AWS_DEFAULT_REGION
+        value: "eu-west-1"
+      - name: CLUSTER_ENDPOINT
+        value: https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com
+    healthProbe:
+      port: 8081
+    readinessProbe:
+      initialDelaySeconds: 600
+      timeoutSeconds: 300
+      periodSeconds: 15
+      failureThreshold: 3
+    livenessProbe:
+      initialDelaySeconds: 540
+      timeoutSeconds: 300
+      periodSeconds: 15
+      failureThreshold: 3
+
+    resources:
+      requests:
+        cpu: "1"
+        memory: "1Gi"
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+

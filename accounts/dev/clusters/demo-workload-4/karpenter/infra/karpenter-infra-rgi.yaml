@@ -1,0 +1,7 @@
+apiVersion: kro.run/v1alpha1
+kind: KarpenterInfra
+metadata:
+  name: dev-demo-workload-4-karpenter-infra
+spec:
+  name: dev-demo-workload-4
+  accountId: "208875563909"

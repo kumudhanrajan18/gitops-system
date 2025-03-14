@@ -1,0 +1,14 @@
+apiVersion: kro.run/v1alpha1
+kind: EksCluster
+metadata:
+  name: dev-demo-workload-4
+spec:
+  name: dev-demo-workload-4
+  namespace: kro-system
+  region: eu-west-1
+  subnets:
+    controlplane:
+      subnet1Name: dev-core-network-private-subnet1
+      subnet2Name: dev-core-network-private-subnet2
+  accountId: "208875563909"
+  k8sVersion: "1.31"
