@@ -16,8 +16,8 @@ karpenter:
         value: "regional"
       - name: AWS_DEFAULT_REGION
         value: "eu-west-1"
-      # - name: CLUSTER_ENDPOINT
-      #   value: "https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com"
+      - name: CLUSTER_ENDPOINT
+        value: "https://9C194494D8F80D4A8806EB2E0F017065.gr7.eu-west-1.eks.amazonaws.com"
     healthProbe:
       port: 8081
     readinessProbe:
