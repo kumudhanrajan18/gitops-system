@@ -52,17 +52,45 @@ spec:
             ]
           }
 
-  - id: fargateExecutionRole
+  # - id: fargateExecutionRole
+  #   template:
+  #     apiVersion: iam.services.k8s.aws/v1alpha1
+  #     kind: Role
+  #     metadata:
+  #       namespace: ${schema.spec.namespace}
+  #       name: ${schema.spec.name}-fargate-pod-execution-role
+  #     spec:
+  #       name: ${schema.spec.name}-fargate-pod-execution-role
+  #       policies:
+  #       - arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
+  #       assumeRolePolicyDocument: |
+  #         {
+  #           "Version": "2012-10-17",
+  #           "Statement": [
+  #             {
+  #               "Effect": "Allow",
+  #               "Principal": {
+  #                 "Service": "eks-fargate-pods.amazonaws.com"
+  #               },
+  #               "Action": "sts:AssumeRole"
+  #             }
+  #           ]
+  #         }
+
+  - id: KarpenterNodeGroupRole
     template:
       apiVersion: iam.services.k8s.aws/v1alpha1
       kind: Role
       metadata:
-        namespace: ${schema.spec.namespace}
-        name: ${schema.spec.name}-fargate-pod-execution-role
+        name: ${schema.spec.name}-karpenter-nodegroup-role
       spec:
-        name: ${schema.spec.name}-fargate-pod-execution-role
+        name: ${schema.spec.name}-karpenter-nodegroup-role
+        description: "EKS Cluster Karpenter NodeGroup Role"
         policies:
-        - arn:aws:iam::aws:policy/AmazonEKSFargatePodExecutionRolePolicy
+          - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+          - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+          - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+          - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
         assumeRolePolicyDocument: |
           {
             "Version": "2012-10-17",
@@ -70,7 +98,7 @@ spec:
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "Service": "eks-fargate-pods.amazonaws.com"
+                  "Service": "ec2.amazonaws.com"
                 },
                 "Action": "sts:AssumeRole"
               }
@@ -78,8 +106,6 @@ spec:
           }
 
   - id: ekscluster
-    # dependsOn:
-    #   - clusterRole
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: Cluster
@@ -105,31 +131,63 @@ spec:
             - from:
                 name: ${schema.spec.subnets.controlplane.subnet2Name}
 
-  - id: fargateProfile
-    # dependsOn:
-    #   - ekscluster
-    #   - fargateExecutionRole
+  - id: KarpenterNodeGroup
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
-      kind: FargateProfile
+      kind: Nodegroup
       metadata:
-        namespace: ${schema.spec.namespace}
-        name: ${schema.spec.name}-fargate-profile
+        name: ${schema.spec.name}-karpenter-nodegroup
       spec:
-        name: ${schema.spec.name}-fargate-profile
+        name: ${schema.spec.name}-karpenter-ng
+        diskSize: 100
         clusterRef:
           from:
             name: ${schema.spec.name}
-        podExecutionRoleRef:
-          from:
-            name: ${schema.spec.name}-fargate-pod-execution-role
-        selectors:
-          - namespace: karpenter
         subnetRefs:
           - from:
               name: ${schema.spec.subnets.controlplane.subnet1Name}
           - from:
               name: ${schema.spec.subnets.controlplane.subnet2Name}
+        nodeRoleRef:
+          from:
+            name: ${schema.spec.name}-karpenter-nodegroup-role
+        updateConfig:
+          maxUnavailable: 1
+        scalingConfig:
+          minSize: 2
+          maxSize: 2
+          desiredSize: 2
+        taints:
+        - effect: NoSchedule
+          key: dedicated
+          value: karpenter
+
+
+  # - id: fargateProfile
+  #   # dependsOn:
+  #   #   - ekscluster
+  #   #   - fargateExecutionRole
+  #   template:
+  #     apiVersion: eks.services.k8s.aws/v1alpha1
+  #     kind: FargateProfile
+  #     metadata:
+  #       namespace: ${schema.spec.namespace}
+  #       name: ${schema.spec.name}-fargate-profile
+  #     spec:
+  #       name: ${schema.spec.name}-fargate-profile
+  #       clusterRef:
+  #         from:
+  #           name: ${schema.spec.name}
+  #       podExecutionRoleRef:
+  #         from:
+  #           name: ${schema.spec.name}-fargate-pod-execution-role
+  #       selectors:
+  #         - namespace: karpenter
+  #       subnetRefs:
+  #         - from:
+  #             name: ${schema.spec.subnets.controlplane.subnet1Name}
+  #         - from:
+  #             name: ${schema.spec.subnets.controlplane.subnet2Name}
 
   - id: oidcProvider
     template:
