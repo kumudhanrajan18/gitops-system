@@ -3,11 +3,11 @@ karpenter:
   serviceAccount:
     name: "karpenter"
     annotations:
-      eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-2-karpenter-controller"
+      eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-3-karpenter-controller"
 
   settings:
     clusterName: "dev-demo-workload-2"
-    cluster_endpoint: "https://71CBB5D3FD001591860045738821E970.gr7.eu-west-1.eks.amazonaws.com"
+    cluster_endpoint: "https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com"
     interruptionQueue: "dev-demo-workload-2-spot-interruption"
 
   dnsPolicy: "Default"
@@ -23,7 +23,7 @@ karpenter:
       - name: AWS_DEFAULT_REGION
         value: "eu-west-1"
       - name: CLUSTER_ENDPOINT
-        value: https://71CBB5D3FD001591860045738821E970.gr7.eu-west-1.eks.amazonaws.com
+        value: https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com
     healthProbe:
       port: 8081
     readinessProbe:
@@ -44,10 +44,4 @@ karpenter:
       limits:
         cpu: "1"
         memory: "1Gi"
-
-    # securityContext:
-    #   allowPrivilegeEscalation: false
-    #   readOnlyRootFilesystem: true
-    #   runAsNonRoot: true
-    #   runAsUser: 1000
 

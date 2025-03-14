@@ -1,7 +1,7 @@
 apiVersion: kro.run/v1alpha1
 kind: KarpenterInfra
 metadata:
-  name: <kro-resourcegroup-instance-name>
+  name: dev-demo-workload-3-karpenter-infra
 spec:
-  name: <cluster-name>
-  accountId: <account-id>
+  name: dev-demo-workload-3
+  accountId: "208875563909"

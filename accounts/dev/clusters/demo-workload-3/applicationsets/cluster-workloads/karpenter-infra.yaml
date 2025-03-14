@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dev-demo-workload-2-karpenter-infra
+  name: dev-demo-workload-3-karpenter-infra
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "6"
@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/kumudhanrajan18/gitops-system.git
     targetRevision: HEAD
-    path: accounts/dev/clusters/demo-workload-2/karpenter/infra
+    path: accounts/dev/clusters/demo-workload-3/karpenter/infra
   destination:
     server: https://kubernetes.default.svc
     namespace: kro-system

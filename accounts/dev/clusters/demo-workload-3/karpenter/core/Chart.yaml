@@ -1,5 +1,5 @@
 apiVersion: v2
-name: dev-demo-workload-2-Karpenter-core
+name: dev-demo-workload-3-Karpenter-core
 description: Karpenter Core
 version: 0.1.0
 type: application
