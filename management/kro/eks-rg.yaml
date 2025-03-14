@@ -131,7 +131,7 @@ spec:
             - from:
                 name: ${schema.spec.subnets.controlplane.subnet2Name}
 
-  - id: KarpenterNodeGroup
+  - id: karpenterNodeGroup
     template:
       apiVersion: eks.services.k8s.aws/v1alpha1
       kind: Nodegroup
