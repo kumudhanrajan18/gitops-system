@@ -4,6 +4,4 @@ metadata:
   name: dev-demo-workload-2-karpenter-infra
 spec:
   name: dev-demo-workload-2
-  namespace: kro-system
-  region: eu-west-1
   accountId: "208875563909"

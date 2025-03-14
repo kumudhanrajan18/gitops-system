@@ -8,8 +8,8 @@ spec:
     kind: KarpenterInfra
     spec:
       name: string
-      namespace: string
-      region: string
+      namespace: string | default="kro-system"
+      region: string | default="eu-west-1"
       accountId: string
   resources:
 # Karpenter IAM Roles and Policies
