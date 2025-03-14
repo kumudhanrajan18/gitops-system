@@ -21,13 +21,13 @@ karpenter:
     healthProbe:
       port: 8081
     readinessProbe:
-      initialDelaySeconds: 30
-      timeoutSeconds: 10
+      initialDelaySeconds: 600
+      timeoutSeconds: 300
       periodSeconds: 15
       failureThreshold: 3
     livenessProbe:
-      initialDelaySeconds: 30
-      timeoutSeconds: 10
+      initialDelaySeconds: 540
+      timeoutSeconds: 300
       periodSeconds: 15
       failureThreshold: 3
 
