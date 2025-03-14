@@ -6,7 +6,7 @@ karpenter:
       eks.amazonaws.com/role-arn: "arn:aws:iam::208875563909:role/dev-demo-workload-3-karpenter-controller"
 
   settings:
-    clusterName: "dev-demo-workload-2"
+    clusterName: "dev-demo-workload-3"
     cluster_endpoint: "https://CA1ED1A1482FB06EB475023B875B7509.gr7.eu-west-1.eks.amazonaws.com"
     interruptionQueue: "dev-demo-workload-3-spot-interruption"
 
