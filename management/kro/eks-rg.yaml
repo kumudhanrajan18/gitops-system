@@ -158,7 +158,7 @@ spec:
           maxSize: 2
           desiredSize: 2
         taints:
-        - effect: NoSchedule
+        - effect: NO_SCHEDULE
           key: dedicated
           value: karpenter
 
