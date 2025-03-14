@@ -1,3 +1,6 @@
+##################################
+### KRO ResourceGroup Instance ###
+##################################
 apiVersion: kro.run/v1alpha1
 kind: KarpenterInfra
 metadata:
