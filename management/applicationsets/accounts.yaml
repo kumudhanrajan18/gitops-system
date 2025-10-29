@@ -1,32 +1,32 @@
 # management/applicationsets/accounts.yaml
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: accounts-manager
-  namespace: argocd
-spec:
-  generators:
-  - git:
-      repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-      revision: HEAD
-      directories:
-      - path: accounts/*
-  template:
-    metadata:
-      name: 'account-{{path.basename}}'
-      namespace: argocd
-      annotations:
-        argocd.argoproj.io/sync-wave: "2"  # After KRO and resource groups
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
-        targetRevision: HEAD
-        path: '{{path}}/applicationsets'
-      destination:
-        server: https://kubernetes.default.svc
-        namespace: argocd
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: accounts-manager
+#  namespace: argocd
+#spec:
+#  generators:
+#  - git:
+#      repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+#      revision: HEAD
+#      directories:
+#      - path: accounts/*
+#  template:
+#    metadata:
+#      name: 'account-{{path.basename}}'
+#      namespace: argocd
+#      annotations:
+#        argocd.argoproj.io/sync-wave: "2"  # After KRO and resource groups
+#    spec:
+#      project: default
+#      source:
+#        repoURL: https://github.com/kumudhanrajan18/gitops-system.git
+#        targetRevision: HEAD
+#        path: '{{path}}/applicationsets'
+#      destination:
+#        server: https://kubernetes.default.svc
+#        namespace: argocd
+#      syncPolicy:
+#        automated:
+#          prune: true
+#          selfHeal: true
